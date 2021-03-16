@@ -5,6 +5,17 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
+
+    <color name="blue_sapphire">#FF114B64</color>
+    <color name="blue_sapphire_variant">#FF18698C</color>
+    <color name="blue_maya">#FF7CC6FE</color>
+    <color name="blue_maya_variant">#FF5DB8FD</color>
+    <color name="blue_artic">#FFF4FAFF</color>
+
+    <color name="green_aquamarine">#FF5DFDCB</color>
+    <color name="red_bittersweet">#FFFF6B6B</color>
+
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>
