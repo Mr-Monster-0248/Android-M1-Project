@@ -2,14 +2,22 @@ package fr.thibaultlepez.chill.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import fr.thibaultlepez.chill.R
 
-class SessionsListActivity : AppCompatActivity() {
+class UsersListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sessions_list)
+        setContentView(R.layout.activity_users_list)
     }
 
 
-    // TODO: link session to its activity
+    fun goToSessionActivity(view: View) {
+        // TODO
+    }
+
+
+    fun leaveSession(view: View) {
+        // TODO
+    }
 }
