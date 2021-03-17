@@ -22,14 +22,20 @@
     <!-- SESSIONS LIST -->
 
 
-    <!-- USERS LIST -->
+    <!-- SESSION OVERVIEW -->
     <string name="users_list_activity_title">SESSION</string>
     <string name="users_list_activity_TEST_session_name">session-name-34fr</string>
     <string name="users_list_activity_joiners">In this session :</string>
     <string name="users_list_activity_go_to_session">GO TO SESSION</string>
     <string name="users_list_activity_edit_session">EDIT SESSION</string>
     <string name="users_list_activity_leave_session">LEAVE SESSION</string>
-    <!-- USERS LIST -->
+    <!-- SESSION OVERVIEW -->
+
+
+    <!-- SWIPE -->
+    <string name="swipe_activity_TEST_movie_name">Star Wars Episode IV: A New Hope</string>
+    <string name="swipe_activity_TEST_movie_number">Movie 4/10</string>
+    <!-- SWIPE -->
 
 
     <string name="action_sign_in_short">Sign in</string>
