@@ -1,10 +1,10 @@
 package fr.thibaultlepez.chill.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import androidx.appcompat.app.AppCompatActivity
 import fr.thibaultlepez.chill.R
 
 class SplashActivity : AppCompatActivity() {
