@@ -2,11 +2,22 @@ package fr.thibaultlepez.chill.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import fr.thibaultlepez.chill.R
 
 class UsersListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_users_list)
+    }
+
+
+    fun goToSessionActivity(view: View) {
+        // TODO
+    }
+
+
+    fun leaveSession(view: View) {
+        // TODO
     }
 }

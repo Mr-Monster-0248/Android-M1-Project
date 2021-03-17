@@ -6,7 +6,6 @@
 
     <!-- LOGIN -->
     <string name="title_activity_login">LOGIN</string>
-
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <!-- LOGIN -->
@@ -14,7 +13,6 @@
 
     <!-- REGISTER -->
     <string name="title_activity_register">REGISTER</string>
-
     <string name="prompt_registration"><u>Register</u></string>
     <!-- REGISTER -->
 
@@ -22,6 +20,15 @@
     <!-- SESSIONS LIST -->
     <string name="sessions_list_activity_my_sessions">MY SESSIONS</string>
     <!-- SESSIONS LIST -->
+
+
+    <!-- USERS LIST -->
+    <string name="users_list_activity_title">SESSION</string>
+    <string name="users_list_activity_TEST_session_name">session-name-34fr</string>
+    <string name="users_list_activity_joiners">In this session :</string>
+    <string name="users_list_activity_go_to_session">GO TO SESSION</string>
+    <string name="users_list_activity_leave_session">LEAVE SESSION</string>
+    <!-- USERS LIST -->
 
 
 
