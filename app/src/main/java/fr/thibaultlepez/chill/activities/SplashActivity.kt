@@ -16,7 +16,7 @@ class SplashActivity : AppCompatActivity() {
         // TODO: check auth and redirect accordingly
         Handler(Looper.getMainLooper()).postDelayed(
             {
-                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
                 finish()
             },
             2500
