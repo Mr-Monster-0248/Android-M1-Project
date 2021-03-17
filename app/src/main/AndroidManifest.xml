@@ -9,12 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Chill">
-        <activity android:name=".activities.SessionsListActivity"></activity>
+        <activity android:name=".activities.UsersListActivity"></activity>
+        <activity android:name=".activities.SessionsListActivity" />
         <activity android:name=".activities.LoginActivity" />
         <activity
             android:name=".activities.RegisterActivity"
-            android:parentActivityName=".activities.LoginActivity"/>
-
+            android:parentActivityName=".activities.LoginActivity" />
         <activity
             android:name=".activities.SplashActivity"
             android:screenOrientation="portrait"
