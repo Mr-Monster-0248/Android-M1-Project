@@ -86,14 +86,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="No account yet ?" />
+            android:text="No account yet ? " />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text=" Register" />
+            android:text="@string/prompt_registration"
+            android:onClick="goToRegisterActivity"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
