@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Chill">
-        <activity android:name=".activities.SwipeActivity"></activity>
+        <activity android:name=".activities.SwipeActivity"/>
         <activity android:name=".activities.SessionOverviewActivity" />
         <activity android:name=".activities.EditActivity"/>
         <activity android:name=".activities.SessionsListActivity" />
