@@ -9,4 +9,7 @@ class SessionsListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sessions_list)
     }
+
+
+    // TODO: link session to its activity
 }
