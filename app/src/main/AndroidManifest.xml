@@ -9,10 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Chill">
-        <activity android:name=".activities.JoinActivity"></activity>
         <activity android:name=".activities.SwipeActivity"></activity>
         <activity android:name=".activities.SessionOverviewActivity" />
         <activity android:name=".activities.SessionsListActivity" />
+        <activity
+            android:name=".activities.JoinActivity"
+            android:parentActivityName=".activities.SessionsListActivity"/>
         <activity android:name=".activities.LoginActivity" />
         <activity
             android:name=".activities.RegisterActivity"
@@ -23,7 +25,6 @@
             android:theme="@style/Theme.Chill.NoActionbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
