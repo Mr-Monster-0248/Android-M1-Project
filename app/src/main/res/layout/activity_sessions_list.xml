@@ -39,6 +39,6 @@
         app:srcCompat="@drawable/baseline_add_white_18dp"
         app:tint="@color/white"
         app:backgroundTint="@color/blue_maya_variant"
-        android:contentDescription="TODO" />
+        android:onClick="goToJoinActivity" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

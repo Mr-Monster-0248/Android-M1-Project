@@ -1,5 +1,6 @@
 package fr.thibaultlepez.chill.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -12,5 +13,8 @@ class JoinActivity : AppCompatActivity() {
     }
 
     fun joinSession(view: View) {}
-    fun goToEditActivity(view: View) {}
+    fun goToEditActivity(view: View) {
+        val intent = Intent(this@JoinActivity, EditActivity::class.java)
+        startActivity(intent)
+    }
 }
