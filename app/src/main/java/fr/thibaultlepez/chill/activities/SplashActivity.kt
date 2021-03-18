@@ -2,9 +2,8 @@ package fr.thibaultlepez.chill.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 import fr.thibaultlepez.chill.R
 
 class SplashActivity : AppCompatActivity() {
@@ -13,13 +12,18 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
 
-        // TODO: check auth and redirect accordingly
-        Handler(Looper.getMainLooper()).postDelayed(
-            {
-                startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
-                finish()
-            },
-            2500
-        )
+        val firebaseAuth = FirebaseAuth.getInstance()
+        val firebaseUser = firebaseAuth.currentUser
+
+        if (firebaseUser != null) {
+            val intent = Intent(this@SplashActivity, SessionsListActivity::class.java)
+//            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+//            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+        } else {
+            startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+            finish()
+        }
     }
 }
