@@ -13,6 +13,8 @@ class JoinActivity : AppCompatActivity() {
     }
 
     fun joinSession(view: View) {}
+
+
     fun goToEditActivity(view: View) {
         val intent = Intent(this@JoinActivity, EditActivity::class.java)
         startActivity(intent)
