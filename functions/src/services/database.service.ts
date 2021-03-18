@@ -29,6 +29,8 @@ async function saveUserInDB(user: User, newUser: boolean = false) {
 
   if (newUser && !(await checkDocExists(ref))) return;
 
+  if (newUser) await ref.set({ id: user.Id });
+
   await ref.set({
       username: user.Username,
       sessionIds: user.SessionIds,
@@ -36,8 +38,8 @@ async function saveUserInDB(user: User, newUser: boolean = false) {
 }
 
 // Create new User in DB
-export async function createUserInDB(newUserData: { id: string, username: string }) {
-  await saveUserInDB(new User(newUserData.id, newUserData.username), true);
+export async function createUserInDB(id: string) {
+  await saveUserInDB(new User(id), true);
 }
 
 // Update existing User in DB
@@ -54,7 +56,8 @@ export async function deleteUserFromDB(user: User) {
 function userFromSnapshot(data: FirebaseFirestore.DocumentData): User {
   return new User(
     data.id,
-    data.username
+    data.username,
+    data.sessionIds
   );
 }
 
@@ -66,12 +69,7 @@ export async function findUserById(userId: string): Promise<User | null> {
 
   const data = (await ref.get()).data();
 
-  if (data === undefined) return null;
-
-  return new User(
-    data.id,
-    data.username
-  );
+  return data === undefined ? null : userFromSnapshot(data);
 }
 
 // Find all Sessions for a User
@@ -97,14 +95,16 @@ export async function findAllSessionsForUser(user: User): Promise<Session[] | nu
 
 
 
-
 // Save Session in DB
 async function saveSessionInDB(session: Session, newSession: boolean = false) {
   const ref = await getRefById('sessions', session.Id);
 
   if (newSession && !(await checkDocExists(ref))) return;
 
+  if (newSession) await ref.set({ id: session.Id });
+
   await ref.set({
+      ownerId: session.OwnerId,
       name: session.Name,
       genres: session.Genres,
       movies: session.Movies.map((m: Movie) => { m.Title, m.PosterUrl }),
@@ -131,10 +131,11 @@ export async function deleteSessionFromDB(session: Session) {
 function sessionFromSnapshot(data: FirebaseFirestore.DocumentData): Session {
   return new Session(
     data.id,
+    data.ownerId,
     data.name,
     data.genres,
     data.movies.map((m: { title: string, posterUrl: string }) => new Movie(m.title, m.posterUrl)),
-    data.users
+    data.users.map((u: { id: string, username: string }) => { u.id, u.username })
   );
 }
 
@@ -146,15 +147,7 @@ export async function findSessionById(sessionId: string): Promise<Session | null
 
   const data = (await ref.get()).data();
 
-  if (data === undefined) return null;
-
-  return new Session(
-    data.id,
-    data.name,
-    data.genres,
-    data.movies.map((m: Movie) => new Movie(m.Title, m.PosterUrl)),
-    data.users.map((u: { id: string, username: string }) => { u.id, u.username })
-  );
+  return data === undefined ? null : sessionFromSnapshot(data);
 }
 
 // Find all Users for a Session

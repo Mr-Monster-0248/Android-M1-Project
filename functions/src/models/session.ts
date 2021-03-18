@@ -3,6 +3,7 @@ import Movie from "./movie";
 
 class Session {
   private id: string;
+  private ownerId: string;
   private name: string;
   private genres: string[];
   private movies: Movie[];
@@ -11,12 +12,14 @@ class Session {
 
   constructor(
     id: string,
+    ownerId: string,
     name: string,
     genres: string[],
     movies: Movie[] = [],
     users: { id: string, username: string }[] = []
   ) {
     this.id = id;
+    this.ownerId = ownerId;
     this.name = name;
     this.genres = genres;
     this.movies = movies;
@@ -26,6 +29,14 @@ class Session {
 
   get Id(): string {
     return this.Id;
+  }
+
+  get OwnerId(): string {
+    return this.ownerId;
+  }
+
+  set OwnerId(o: string) {
+    this.ownerId = o;
   }
 
   get Name(): string {
@@ -53,8 +64,25 @@ class Session {
   }
 
 
+  removeOwnerAndPickNewOwner() {
+    let newOwnerId = this.OwnerId;
+
+    do {
+      newOwnerId = this.Users[Math.floor(Math.random() * this.Users.length)].id;
+    } while (newOwnerId === this.OwnerId);
+
+    this.removeUserById(this.OwnerId);
+
+    this.OwnerId = newOwnerId;
+  }
+
+
   addUser(user: { id: string, username: string }) {
     this.Users.push(user);
+  }
+
+  hasUser(userId: string) {
+    return this.Users.find(u => u.id === userId);
   }
 
   removeUserById(userId: string) {

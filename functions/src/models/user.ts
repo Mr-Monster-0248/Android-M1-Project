@@ -8,11 +8,12 @@ class User {
 
   constructor(
     id: string,
-    username: string,
+    username: string = '',
+    sessionIds: string[] = []
   ) {
     this.id = id;
     this.username = username;
-    this.sessionIds = [];
+    this.sessionIds = sessionIds;
   }
 
 
@@ -33,13 +34,23 @@ class User {
   }
 
 
-  addSession(session: Session) {
-    this.SessionIds.push(session.Id);
+  addSession(sessionId: string) {
+    this.SessionIds.push(sessionId);
   }
 
-  removeSessionById(sessionId: string) {
-    if (this.SessionIds.includes(sessionId))
-      this.SessionIds.splice(this.SessionIds.indexOf(sessionId));
+  removeSession(session: Session) {
+    if (this.isOwnerOfSession(session)) session.removeOwnerAndPickNewOwner();
+
+    if (this.SessionIds.includes(session.Id))
+      this.SessionIds.splice(this.SessionIds.indexOf(session.Id));
+  }
+
+  isOwnerOfSession(session: Session) {
+    return session.OwnerId === this.Id;
+  }
+
+  hasSession(sessionId: string) {
+    return this.SessionIds.includes(sessionId);
   }
 }
 
