@@ -34,8 +34,10 @@ class RegisterActivity : BaseActivity() {
                 closeProgressDialog()
                 Log.e("CHILL", "Error while registering user", err)
             }
+        } else {
+            closeProgressDialog()
         }
-        closeProgressDialog()
+
     }
 
     private fun validateRegister(): Boolean {
