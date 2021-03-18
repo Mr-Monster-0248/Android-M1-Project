@@ -1,56 +1,114 @@
 import * as functions from 'firebase-functions';
-import Session from './models/session';
 import User from './models/user';
 import {
   createUserInDB,
   deleteUserFromDB,
   updateUserInDB,
-  deleteSessionFromDB
+  findAllSessionsForUser,
+  findUserById,
+  updateSessionInDB,
+  findSessionById
 } from './services/database.service';
 
 
 
-// Handle User creation
-export const createNewUser = functions.https.onCall(async (data: { id: string, username: string }) => {
-  await createUserInDB(data);
+// * onUserCreate
+// * updateUserUsername
+// * onUserDelete
+
+
+// onSessionCreate (catch event depuis firestore -- populate)
+// onSessionUpdate (même chose -- genre & owner)
+// * addUserToSession
+// * removeUserFromSession
+
+
+
+// Handle User creation in auth
+export const onUserCreate = functions.auth.user().onCreate(async (user) => {
+  await createUserInDB(user.uid);
 });
 
-// Handle User update
-export const updateUser = functions.https.onCall(async (data: { user: User }) => {
-  await updateUserInDB(data.user);
+// Handle User username update
+export const updateUserUsername = functions.https.onCall(async (data: User) => {
+  await updateUserInDB(data);
 
-  // 2. Find all Sessions with this User in them
-  // 3. Update all Sessions found
+  const sessions = await findAllSessionsForUser(data);
+  if (sessions === null) return;
+
+  for (const session of sessions) {
+    for (const user of session.Users) {
+      if (user.id === data.Id) {
+        user.username = data.Username;
+        await updateSessionInDB(session);
+      }
+    }
+  }
 });
 
-// Handle User deletion
-export const deleteUser = functions.https.onCall(async (data: { user: User }) => {
-  await deleteUserFromDB(data.user);
+// Handle User deletion in auth
+export const onUserDelete = functions.auth.user().onDelete(async (user) => {
+  
+  const search = await findUserById(user.uid);
+  if (search === null) return;
 
-  // 2. Find all Sessions with this User in them
-  // 3. Update all Sessions found
+  await deleteUserFromDB(search);
+
+  const sessions = await findAllSessionsForUser(search);
+  if (sessions === null) return;
+
+  for (const session of sessions) {
+    for (const user of session.Users) {
+      if (user.id === search.Id) {
+        user.username = search.Username;
+        await updateSessionInDB(session);
+      }
+    }
+  }
 });
 
 
 
-// Handle Session creation
-export const createNewSession = functions.https.onCall(async (data: { id: string, name: string, genres: string[] }) => {
+// Handle Session creation in store
+export const onSessionCreate = functions.firestore.document('sessions/{id}').onCreate((session) => {
   // 1. Query API pour liste de films
   // 2. Process films -> dans la Session
   // 3. Ajouter la Session dans DB
 });
 
-// Handle Session update
-export const updateSession = functions.https.onCall(async (data: { session: Session }) => {
+// Handle Session update in store
+export const onSessionUpdate = functions.firestore.document('sessions/{id}').onUpdate((session) => {
   // 1. Check changes
-  // 2. Update Session
+  // 2. Process changes:
+  //    - genres: query API, process films, films dans la Session
+  //    - owner: change owner
+  // 3. Update Session
 });
 
+// Handle User addition to Session
+export const addUserToSession = functions.https.onCall(async (data: { userId: string, sessionId: string }) => {
+  const user = await findUserById(data.userId);
+  const session = await findSessionById(data.sessionId);
 
-// Handle Session deletion
-export const deleteSession = functions.https.onCall(async (data: { session: Session }) => {
-  await deleteSessionFromDB(data.session);
-  // 2. Find all Users with this Session in them
-  // 3. Update all Users found
+  if (session === null || user === null) return;
+
+  if (!session.hasUser(user.Id)) session.addUser({ id: user.Id, username: user.Username });
+  await updateSessionInDB(session);
+
+  if (!user.hasSession(session.Id)) user.addSession(session.Id);
+  await updateUserInDB(user);
 });
 
+// Handle User deletion from Session
+export const removeUserFromSession = functions.https.onCall(async (data: { userId: string, sessionId: string }) => {
+  const user = await findUserById(data.userId);
+  const session = await findSessionById(data.sessionId);
+
+  if (session === null || user === null) return;
+
+  if (session.hasUser(user.Id)) session.removeUserById(data.userId);
+  await updateSessionInDB(session);
+
+  if (!user.hasSession(session.Id)) user.removeSession(session);
+  await updateUserInDB(user);
+});
