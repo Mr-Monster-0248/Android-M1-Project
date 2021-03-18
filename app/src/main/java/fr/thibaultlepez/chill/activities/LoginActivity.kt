@@ -28,11 +28,14 @@ class LoginActivity : BaseActivity() {
     }
 
     fun loginUser(view: View) {
+        showProgressDialog()
         try {
             loginWithEmailAndPassword(loginEmail.text.toString(), loginPassword.text.toString()) {
+                closeProgressDialog()
                 goToSessionListActivity()
             }
         } catch (err: Error) {
+            closeProgressDialog()
             Log.e("CHILL", "Error while logging user")
         }
     }

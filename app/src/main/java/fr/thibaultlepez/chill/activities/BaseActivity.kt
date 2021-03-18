@@ -1,11 +1,13 @@
 package fr.thibaultlepez.chill.activities
 
+import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import fr.thibaultlepez.chill.R
 
 open class BaseActivity : AppCompatActivity() {
+    private lateinit var progressDialog: Dialog
 
     fun showSnackBar(message: String, error: Boolean = false) {
         val snackBar =
@@ -29,5 +31,18 @@ open class BaseActivity : AppCompatActivity() {
         }
 
         snackBar.show()
+    }
+
+    fun showProgressDialog() {
+        progressDialog = Dialog(this)
+        progressDialog.setContentView(R.layout.dialog_progress)
+        progressDialog.setCancelable(false)
+        progressDialog.setCanceledOnTouchOutside(false)
+
+        progressDialog.show()
+    }
+
+    fun closeProgressDialog() {
+        progressDialog.dismiss()
     }
 }

@@ -23,15 +23,19 @@ class RegisterActivity : BaseActivity() {
     }
 
     fun registerUser(view: View) {
+        showProgressDialog()
         if (validateRegister()) {
             try {
                 registerWithEmailAndPassword(registerEmail.text.toString(), registerPassword.text.toString()) { user ->
+                    closeProgressDialog()
                     showSnackBar("Register success")
                 }
             } catch (err: Error) {
+                closeProgressDialog()
                 Log.e("CHILL", "Error while registering user", err)
             }
         }
+        closeProgressDialog()
     }
 
     private fun validateRegister(): Boolean {
