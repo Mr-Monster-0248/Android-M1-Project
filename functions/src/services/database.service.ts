@@ -1,7 +1,6 @@
 import * as admin from 'firebase-admin';
 import User from '../models/user';
 import Session from '../models/session';
-import Movie from '../models/movie';
 import { DocumentData } from '@firebase/firestore-types';
 
 
@@ -107,7 +106,7 @@ async function saveSessionInDB(session: Session, newSession: boolean = false) {
       ownerId: session.OwnerId,
       name: session.Name,
       genres: session.Genres,
-      movies: session.Movies.map((m: Movie) => { m.Title, m.PosterUrl }),
+      movies: session.MovieIds,
       users: session.Users
     });
 }
@@ -134,7 +133,7 @@ function sessionFromSnapshot(data: FirebaseFirestore.DocumentData): Session {
     data.ownerId,
     data.name,
     data.genres,
-    data.movies.map((m: { title: string, posterUrl: string }) => new Movie(m.title, m.posterUrl)),
+    data.movieIds,
     data.users.map((u: { id: string, username: string }) => { u.id, u.username })
   );
 }

@@ -1,28 +1,19 @@
-import Movie from "./movie";
-
+// TODO: take care of SearchParams in Session object
 
 class Session {
-  private id: string;
-  private ownerId: string;
-  private name: string;
-  private genres: string[];
-  private movies: Movie[];
-  private users: { id: string, username: string }[];
-
-
   constructor(
-    id: string,
-    ownerId: string,
-    name: string,
-    genres: string[],
-    movies: Movie[] = [],
-    users: { id: string, username: string }[] = []
+    private id: string,
+    private ownerId: string,
+    private name: string,
+    private genres: string[],
+    private movieIds: string[] = [],
+    private users: { id: string, username: string }[] = []
   ) {
     this.id = id;
     this.ownerId = ownerId;
     this.name = name;
     this.genres = genres;
-    this.movies = movies;
+    this.movieIds = movieIds;
     this.users = users;
   }
 
@@ -51,12 +42,12 @@ class Session {
     this.genres = genres;
   }
 
-  get Movies(): Movie[] {
-    return this.movies;
+  get MovieIds(): string[] {
+    return this.movieIds;
   }
 
-  set Movies(movies: Movie[]) {
-    this.movies = movies;
+  set MovieIds(movieIds: string[]) {
+    this.movieIds = movieIds;
   }
 
   get Users(): { id: string, username: string }[] {
@@ -91,14 +82,14 @@ class Session {
   }
 
 
-  addMovie(movie: Movie) {
-    if (!this.Movies.includes(movie))
-      this.Movies.push(movie);
+  addMovie(movieId: string) {
+    if (!this.MovieIds.includes(movieId))
+      this.MovieIds.push(movieId);
   }
 
-  removeMovie(movie: Movie) {
-    if (this.Movies.includes(movie))
-      this.Movies.splice(this.Movies.indexOf(movie));
+  removeMovie(movieId: string) {
+    if (this.MovieIds.includes(movieId))
+      this.MovieIds.splice(this.MovieIds.indexOf(movieId));
   }
 }
 

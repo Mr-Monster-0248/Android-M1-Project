@@ -9,6 +9,7 @@ import {
   updateSessionInDB,
   findSessionById
 } from './services/database.service';
+import { getMoviesFromSearchParams } from './services/movies.service';
 
 
 
@@ -17,7 +18,7 @@ import {
 // * onUserDelete
 
 
-// onSessionCreate (catch event depuis firestore -- populate)
+// * onSessionCreate (catch event depuis firestore -- populate)
 // onSessionUpdate (même chose -- genre & owner)
 // * addUserToSession
 // * removeUserFromSession
@@ -70,10 +71,23 @@ export const onUserDelete = functions.auth.user().onDelete(async (user) => {
 
 
 // Handle Session creation in store
-export const onSessionCreate = functions.firestore.document('sessions/{id}').onCreate((session) => {
-  // 1. Query API pour liste de films
-  // 2. Process films -> dans la Session
-  // 3. Ajouter la Session dans DB
+export const onSessionCreate = functions.firestore.document('sessions/{id}').onCreate(async (session) => {
+  const ses = await findSessionById(session.id);
+  if (ses === null) return;
+
+  const movieIds = await getMoviesFromSearchParams({
+    searchData: {
+      genreIds: ses.Genres,
+      include_adult: false
+    },
+    max_nbr: 10
+  });
+
+  for (const movieId of movieIds) {
+    ses.addMovie(movieId);
+  }
+  
+  await updateSessionInDB(ses);
 });
 
 // Handle Session update in store
