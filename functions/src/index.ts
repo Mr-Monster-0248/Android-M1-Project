@@ -7,21 +7,11 @@ import {
   findAllSessionsForUser,
   findUserById,
   updateSessionInDB,
-  findSessionById
+  findSessionById,
+  sessionFromSnapshot
 } from './services/database.service';
 import { getMoviesFromSearchParams } from './services/movies.service';
 
-
-
-// * onUserCreate
-// * updateUserUsername
-// * onUserDelete
-
-
-// * onSessionCreate (catch event depuis firestore -- populate)
-// onSessionUpdate (même chose -- genre & owner)
-// * addUserToSession
-// * removeUserFromSession
 
 
 
@@ -91,12 +81,33 @@ export const onSessionCreate = functions.firestore.document('sessions/{id}').onC
 });
 
 // Handle Session update in store
-export const onSessionUpdate = functions.firestore.document('sessions/{id}').onUpdate((session) => {
-  // 1. Check changes
-  // 2. Process changes:
-  //    - genres: query API, process films, films dans la Session
-  //    - owner: change owner
-  // 3. Update Session
+export const onSessionUpdate = functions.firestore.document('sessions/{id}').onUpdate(async (session) => {
+  
+  const before = sessionFromSnapshot(session.before.data());
+  const after = sessionFromSnapshot(session.after.data());
+
+  
+  if (!checkSameArray(before.Genres, after.Genres)) {
+    const movieIds = await getMoviesFromSearchParams({
+      searchData: {
+        genreIds: after.Genres,
+        include_adult: false
+      },
+      max_nbr: 10
+    });
+
+    for (const movieId of movieIds) {
+      after.addMovie(movieId);
+    }
+  }
+
+
+  if (before.OwnerId !== after.OwnerId) {
+    // TODO
+  }
+  
+
+  await updateSessionInDB(after);
 });
 
 // Handle User addition to Session
@@ -126,3 +137,11 @@ export const removeUserFromSession = functions.https.onCall(async (data: { userI
   if (!user.hasSession(session.Id)) user.removeSession(session);
   await updateUserInDB(user);
 });
+
+
+
+// Check whether two arrays contain the same values
+function checkSameArray(array1: any[], array2: any[]) {
+  return array1.length === array2.length
+    && array1.every((val, index) => val === array2[index]);
+}

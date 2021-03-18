@@ -127,7 +127,7 @@ export async function deleteSessionFromDB(session: Session) {
 }
 
 // Session from snapshot
-function sessionFromSnapshot(data: FirebaseFirestore.DocumentData): Session {
+export function sessionFromSnapshot(data: FirebaseFirestore.DocumentData): Session {
   return new Session(
     data.id,
     data.ownerId,
