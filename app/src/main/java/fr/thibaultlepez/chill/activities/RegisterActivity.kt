@@ -1,16 +1,16 @@
 package fr.thibaultlepez.chill.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.widget.EditText
 import com.google.android.material.textfield.TextInputEditText
 import fr.thibaultlepez.chill.R
 import fr.thibaultlepez.chill.services.registerWithEmailAndPassword
 import java.lang.Error
 
-class RegisterActivity : BaseActivity() {
+class RegisterActivity : AuthBaseActivity() {
     private lateinit var registerEmail: TextInputEditText
     private lateinit var registerPassword: TextInputEditText
 
@@ -29,6 +29,11 @@ class RegisterActivity : BaseActivity() {
                 registerWithEmailAndPassword(registerEmail.text.toString(), registerPassword.text.toString()) { user ->
                     closeProgressDialog()
                     showSnackBar("Register success")
+                    val intent = Intent(this@RegisterActivity, SessionsListActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    finish()
                 }
             } catch (err: Error) {
                 closeProgressDialog()

@@ -1,16 +1,14 @@
 package fr.thibaultlepez.chill.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import com.google.android.material.textfield.TextInputEditText
 import fr.thibaultlepez.chill.R
 import fr.thibaultlepez.chill.services.loginWithEmailAndPassword
 
-class LoginActivity : BaseActivity() {
+class LoginActivity : AuthBaseActivity() {
     private lateinit var loginEmail: TextInputEditText
     private lateinit var loginPassword: TextInputEditText
 
@@ -43,6 +41,8 @@ class LoginActivity : BaseActivity() {
 
     private fun goToSessionListActivity() {
         val intent = Intent(this@LoginActivity, SessionsListActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
     }
