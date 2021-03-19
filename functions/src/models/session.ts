@@ -1,4 +1,12 @@
+import { getRandomValueInArray } from "../utils/misc.util";
 import SearchParams from "./search-params";
+
+export enum SessionState {
+  NEW = 0,
+  READY = 1,
+  VOTING = 2,
+  DONE = 3
+}
 
 class Session {
   constructor(
@@ -6,15 +14,17 @@ class Session {
     private ownerId: string,
     private name: string,
     private searchParams: SearchParams,
-    private movieIds: string[] = [],
-    private users: { id: string, username: string }[] = []
+    private movies: { id: string, score: number }[] = [],
+    private users: { id: string, username: string }[] = [],
+    private state: SessionState
   ) {
     this.id = id;
     this.ownerId = ownerId;
     this.name = name;
     this.searchParams = searchParams;
-    this.movieIds = movieIds;
+    this.movies = movies;
     this.users = users;
+    this.state = state;
   }
 
 
@@ -42,16 +52,24 @@ class Session {
     this.searchParams = searchParams;
   }
 
-  get MovieIds(): string[] {
-    return this.movieIds;
+  get Movies(): { id: string, score: number }[] {
+    return this.movies;
   }
 
-  set MovieIds(movieIds: string[]) {
-    this.movieIds = movieIds;
+  set Movies(movies: { id: string, score: number }[]) {
+    this.movies = movies;
   }
 
   get Users(): { id: string, username: string }[] {
     return this.users;
+  }
+
+  get State(): SessionState {
+    return this.state;
+  }
+
+  set State(state: SessionState) {
+    this.state = state;
   }
 
 
@@ -59,7 +77,7 @@ class Session {
     let newOwnerId = this.OwnerId;
 
     do {
-      newOwnerId = this.Users[Math.floor(Math.random() * this.Users.length)].id;
+      newOwnerId = getRandomValueInArray(this.Users).id;
     } while (newOwnerId === this.OwnerId);
 
     this.removeUserById(this.OwnerId);
@@ -82,14 +100,38 @@ class Session {
   }
 
 
-  addMovie(movieId: string) {
-    if (!this.MovieIds.includes(movieId))
-      this.MovieIds.push(movieId);
+  addMovie(movie: { id: string, score: number }) {
+    if (!this.Movies.find(movie => movie.id === movie.id))
+      this.Movies.push(movie);
   }
 
   removeMovie(movieId: string) {
-    if (this.MovieIds.includes(movieId))
-      this.MovieIds.splice(this.MovieIds.indexOf(movieId));
+    const search = this.Movies.find((movie) => movie.id === movieId);
+    if (search !== undefined) this.Movies.splice(this.Movies.indexOf(search));
+  }
+
+  getWinningMovieId(): string {
+    const highscore = Math.max(...this.Movies.map(m => m.score));
+    const winners = this.Movies.filter(movie => movie.score === highscore);
+
+    return getRandomValueInArray(winners).id;
+  }
+
+
+  isNew(): boolean {
+    return this.State === SessionState.NEW;
+  }
+
+  isReady(): boolean {
+    return this.State === SessionState.READY;
+  }
+
+  isVoting(): boolean {
+    return this.State === SessionState.VOTING;
+  }
+
+  isDone(): boolean {
+    return this.State === SessionState.DONE;
   }
 }
 

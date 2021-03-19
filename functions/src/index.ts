@@ -1,4 +1,5 @@
 import * as functions from 'firebase-functions';
+import { SessionState } from './models/session';
 import User from './models/user';
 import {
   createUserInDB,
@@ -11,6 +12,7 @@ import {
   sessionFromSnapshot
 } from './services/database.service';
 import { getMoviesFromSearchParams } from './services/movies.service';
+import { checkSameArray } from './utils/misc.util';
 
 
 
@@ -70,6 +72,8 @@ export const onSessionCreate = functions.firestore.document('sessions/{id}').onC
   for (const movieId of movieIds) {
     ses.addMovie(movieId);
   }
+
+  ses.State = SessionState.READY;
   
   await updateSessionInDB(ses);
 });
@@ -93,7 +97,9 @@ export const onSessionUpdate = functions.firestore.document('sessions/{id}').onU
   if (before.OwnerId !== after.OwnerId) {
     // TODO
   }
-  
+
+
+  after.State = SessionState.READY;
 
   await updateSessionInDB(after);
 });
@@ -125,11 +131,3 @@ export const removeUserFromSession = functions.https.onCall(async (data: { userI
   if (!user.hasSession(session.Id)) user.removeSession(session);
   await updateUserInDB(user);
 });
-
-
-
-// Check whether two arrays contain the same values
-function checkSameArray(array1: any[], array2: any[]) {
-  return array1.length === array2.length
-    && array1.every((val, index) => val === array2[index]);
-}

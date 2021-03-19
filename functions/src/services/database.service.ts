@@ -96,25 +96,26 @@ export async function findAllSessionsForUser(user: User): Promise<Session[] | nu
 
 
 // Save Session in DB
-async function saveSessionInDB(session: Session, newSession: boolean = false) {
+async function saveSessionInDB(session: Session) {
   const ref = await getRefById('sessions', session.Id);
 
-  if (newSession && !(await checkDocExists(ref))) return;
+  if (session.isNew() && !(await checkDocExists(ref))) return;
 
-  if (newSession) await ref.set({ id: session.Id });
+  if (session.isNew()) await ref.set({ id: session.Id });
 
   await ref.set({
-      ownerId: session.OwnerId,
-      name: session.Name,
-      searchParams: { query: session.SearchParams.Query, max_nbr: session.SearchParams.Max_nbr },
-      movies: session.MovieIds,
-      users: session.Users
-    });
+    ownerId: session.OwnerId,
+    name: session.Name,
+    searchParams: { query: session.SearchParams.Query, max_nbr: session.SearchParams.Max_nbr },
+    movies: session.Movies,
+    users: session.Users,
+    state: session.State
+  });
 }
 
 // Create new Session in DB
 export async function createSessionInDB(session: Session) {
-  await saveSessionInDB(session, true);
+  await saveSessionInDB(session);
 }
 
 // Update existing Session in DB
@@ -134,8 +135,9 @@ export function sessionFromSnapshot(data: FirebaseFirestore.DocumentData): Sessi
     data.ownerId,
     data.name,
     new SearchParams(data.searchParams.query, data.searchParams.max_nbr),
-    data.movieIds,
-    data.users.map((u: { id: string, username: string }) => { u.id, u.username })
+    data.movies,
+    data.users.map((u: { id: string, username: string }) => { u.id, u.username }),
+    data.state
   );
 }
 
