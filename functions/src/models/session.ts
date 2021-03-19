@@ -29,7 +29,7 @@ class Session {
 
 
   get Id(): string {
-    return this.Id;
+    return this.id;
   }
 
   get OwnerId(): string {

@@ -25,7 +25,7 @@ class User {
   }
 
   get SessionIds(): string[] {
-    return this.SessionIds;
+    return this.sessionIds;
   }
 
 
