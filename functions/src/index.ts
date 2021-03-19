@@ -12,7 +12,6 @@ import {
   sessionFromSnapshot
 } from './services/database.service';
 import { getMoviesFromSearchParams } from './services/movies.service';
-import { checkSameArray } from './utils/misc.util';
 
 
 
@@ -85,19 +84,16 @@ export const onSessionUpdate = functions.firestore.document('sessions/{id}').onU
   const after = sessionFromSnapshot(session.after.data());
 
   
-  if (!checkSameArray(before.SearchParams.Query.genreIds, after.SearchParams.Query.genreIds)) {
+  // Handle search parameters update
+  if (after.SearchParams !== before.SearchParams) {
     const movieIds = await getMoviesFromSearchParams(after.SearchParams);
+
+    after.Movies = [];
 
     for (const movieId of movieIds) {
       after.addMovie(movieId);
     }
   }
-
-
-  if (before.OwnerId !== after.OwnerId) {
-    // TODO
-  }
-
 
   after.State = SessionState.READY;
 
