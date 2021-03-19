@@ -1,3 +1,5 @@
+import { checkArraysEqual } from "../utils/misc.util";
+
 export default class SearchParams {
   constructor(
     private query: Query,
@@ -15,10 +17,17 @@ export default class SearchParams {
   get Max_nbr(): number {
     return this.max_nbr;
   }
+
+
+  isEqualTo(other: SearchParams) {
+    return this.Max_nbr === other.Max_nbr
+      && this.Query.include_adult === other.Query.include_adult
+      && checkArraysEqual<number>(this.Query.with_genres, other.Query.with_genres);
+  }
 }
 
 
 export interface Query {
-  genreIds: string[];
+  with_genres: number[];
   include_adult: boolean;
 }

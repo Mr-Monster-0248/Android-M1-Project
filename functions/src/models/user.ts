@@ -30,13 +30,13 @@ class User {
 
 
   addSession(sessionId: string) {
-    this.SessionIds.push(sessionId);
+    if (!this.hasSession(sessionId)) this.SessionIds.push(sessionId);
   }
 
   removeSession(session: Session) {
     if (this.isOwnerOfSession(session)) session.removeOwnerAndPickNewOwner();
 
-    if (this.SessionIds.includes(session.Id))
+    if (this.hasSession(session.Id))
       this.SessionIds.splice(this.SessionIds.indexOf(session.Id));
   }
 

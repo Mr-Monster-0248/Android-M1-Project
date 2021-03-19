@@ -32,6 +32,10 @@ class Session {
     return this.id;
   }
 
+  set Id(id: string) {
+    this.id = id;
+  }
+
   get OwnerId(): string {
     return this.ownerId;
   }
@@ -87,11 +91,17 @@ class Session {
 
 
   addUser(user: { id: string, username: string }) {
-    this.Users.push(user);
+    if (!this.hasUser(user.id)) this.Users.push(user);
+    else {
+      const search = this.Users.find(u => u.id === user.id);
+      if (search !== undefined && search.username !== user.username) {
+        this.Users[this.Users.indexOf(search)].username = user.username;
+      } 
+    }
   }
 
   hasUser(userId: string) {
-    return this.Users.find(u => u.id === userId);
+    return this.Users.some(u => u.id === userId);
   }
 
   removeUserById(userId: string) {
@@ -101,8 +111,11 @@ class Session {
 
 
   addMovie(movie: { id: string, score: number }) {
-    if (!this.Movies.find(movie => movie.id === movie.id))
-      this.Movies.push(movie);
+    if (!this.hasMovie(movie.id)) this.Movies.push(movie);
+  }
+
+  hasMovie(movieId: string) {
+    return this.Movies.some(m => m.id === movieId);
   }
 
   removeMovie(movieId: string) {

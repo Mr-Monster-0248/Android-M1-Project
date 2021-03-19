@@ -17,7 +17,7 @@ async function checkDocExists(ref: FirebaseFirestore.DocumentReference<DocumentD
 
 // Get document reference from DB by Id
 async function getRefById(collectionName: string, docId: string): Promise<FirebaseFirestore.DocumentReference<DocumentData>> {
-  return await db.collection(collectionName).doc(docId);
+  return await db.collection(collectionName).doc(`/${docId}`);
 }
 
 
@@ -29,12 +29,11 @@ async function saveUserInDB(user: User, newUser: boolean = false) {
 
   if (newUser && !(await checkDocExists(ref))) return;
 
-  if (newUser) await ref.set({ id: user.Id });
-
   await ref.set({
-      username: user.Username,
-      sessionIds: user.SessionIds,
-    });
+    id: user.Id,
+    username: user.Username,
+    sessionIds: user.SessionIds,
+  });
 }
 
 // Create new User in DB
@@ -101,9 +100,8 @@ async function saveSessionInDB(session: Session) {
 
   if (session.isNew() && !(await checkDocExists(ref))) return;
 
-  if (session.isNew()) await ref.set({ id: session.Id });
-
   await ref.set({
+    id: session.Id,
     ownerId: session.OwnerId,
     name: session.Name,
     searchParams: { query: session.SearchParams.Query, max_nbr: session.SearchParams.Max_nbr },
@@ -136,7 +134,7 @@ export function sessionFromSnapshot(data: FirebaseFirestore.DocumentData): Sessi
     data.name,
     new SearchParams(data.searchParams.query, data.searchParams.max_nbr),
     data.movies,
-    data.users.map((u: { id: string, username: string }) => { u.id, u.username }),
+    data.users,
     data.state
   );
 }

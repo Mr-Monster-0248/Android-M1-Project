@@ -66,12 +66,27 @@ export const onSessionCreate = functions.firestore.document('sessions/{id}').onC
   const ses = await findSessionById(session.id);
   if (ses === null) return;
 
+  ses.Movies = [];
   const movieIds = await getMoviesFromSearchParams(ses.SearchParams);
 
   for (const movieId of movieIds) {
-    ses.addMovie(movieId);
+    ses.addMovie({ id: movieId, score: 0 });
   }
 
+  functions.logger.log("New movies", ses.Movies);
+
+
+  const owner = await findUserById(ses.OwnerId);
+
+  if (owner) {
+    owner.addSession(ses.Id);
+    await updateUserInDB(owner);
+
+    ses.addUser({ id: owner.Id, username: owner.Username });
+  }
+
+
+  ses.Id = session.id;
   ses.State = SessionState.READY;
   
   await updateSessionInDB(ses);
@@ -83,16 +98,19 @@ export const onSessionUpdate = functions.firestore.document('sessions/{id}').onU
   const before = sessionFromSnapshot(session.before.data());
   const after = sessionFromSnapshot(session.after.data());
 
+  functions.logger.log("Current movies", after.Movies);
   
   // Handle search parameters update
-  if (after.SearchParams !== before.SearchParams) {
+  if (after.SearchParams.isEqualTo(before.SearchParams)) {
     const movieIds = await getMoviesFromSearchParams(after.SearchParams);
 
     after.Movies = [];
 
     for (const movieId of movieIds) {
-      after.addMovie(movieId);
+      after.addMovie({ id: movieId, score: 0 });
     }
+
+    functions.logger.log("New movies", after.Movies);
   }
 
   after.State = SessionState.READY;
