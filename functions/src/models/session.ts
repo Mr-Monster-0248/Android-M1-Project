@@ -1,18 +1,18 @@
-// TODO: take care of SearchParams in Session object
+import SearchParams from "./search-params";
 
 class Session {
   constructor(
     private id: string,
     private ownerId: string,
     private name: string,
-    private genres: string[],
+    private searchParams: SearchParams,
     private movieIds: string[] = [],
     private users: { id: string, username: string }[] = []
   ) {
     this.id = id;
     this.ownerId = ownerId;
     this.name = name;
-    this.genres = genres;
+    this.searchParams = searchParams;
     this.movieIds = movieIds;
     this.users = users;
   }
@@ -34,12 +34,12 @@ class Session {
     return this.name;
   }
 
-  get Genres(): string[] {
-    return this.genres;
+  get SearchParams(): SearchParams {
+    return this.searchParams;
   }
 
-  set Genres(genres: string[]) {
-    this.genres = genres;
+  set SearchParams(searchParams: SearchParams) {
+    this.searchParams = searchParams;
   }
 
   get MovieIds(): string[] {

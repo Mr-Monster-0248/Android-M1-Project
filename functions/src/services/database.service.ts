@@ -1,6 +1,7 @@
 import * as admin from 'firebase-admin';
 import User from '../models/user';
 import Session from '../models/session';
+import SearchParams from '../models/search-params';
 import { DocumentData } from '@firebase/firestore-types';
 
 
@@ -105,7 +106,7 @@ async function saveSessionInDB(session: Session, newSession: boolean = false) {
   await ref.set({
       ownerId: session.OwnerId,
       name: session.Name,
-      genres: session.Genres,
+      searchParams: { query: session.SearchParams.Query, max_nbr: session.SearchParams.Max_nbr },
       movies: session.MovieIds,
       users: session.Users
     });
@@ -132,7 +133,7 @@ export function sessionFromSnapshot(data: FirebaseFirestore.DocumentData): Sessi
     data.id,
     data.ownerId,
     data.name,
-    data.genres,
+    new SearchParams(data.searchParams.query, data.searchParams.max_nbr),
     data.movieIds,
     data.users.map((u: { id: string, username: string }) => { u.id, u.username })
   );

@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions';
 import fetch from 'node-fetch';
-import SearchParams from '../models/search-params';
+import SearchParams, { Query } from '../models/search-params';
 
 
 
@@ -10,10 +10,10 @@ const API_KEY = `api_key=${functions.config().tmdb.key}`;
 
 
 // Build query string from provided search parameters
-function queryStringFromParams(params: object): string {
+function queryStringFromParams(query: Query): string {
   let res = API_KEY;
 
-  const entries = Object.entries(params);
+  const entries = Object.entries(query);
   
   for (const [key, value] of entries) {
     res += `${key}=${value}&`;
@@ -25,16 +25,11 @@ function queryStringFromParams(params: object): string {
 
 
 // Get a list of movies from provided search parameters
-export async function getMoviesFromSearchParams(
-  searchParams: {
-    searchData: SearchParams,
-    max_nbr: number
-  }
-) {
-  const res = await fetch(`${BASE_URL}/discover/movie?${queryStringFromParams(searchParams.searchData)}`);
+export async function getMoviesFromSearchParams(searchParams: SearchParams) {
+  const res = await fetch(`${BASE_URL}/discover/movie?${queryStringFromParams(searchParams.Query)}`);
   const { result } = await res.json();
   
   return result
     .map((movie: any) => { movie.id })
-    .slice(0, searchParams.max_nbr);
+    .slice(0, searchParams.Max_nbr);
 }

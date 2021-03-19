@@ -65,13 +65,7 @@ export const onSessionCreate = functions.firestore.document('sessions/{id}').onC
   const ses = await findSessionById(session.id);
   if (ses === null) return;
 
-  const movieIds = await getMoviesFromSearchParams({
-    searchData: {
-      genreIds: ses.Genres,
-      include_adult: false
-    },
-    max_nbr: 10
-  });
+  const movieIds = await getMoviesFromSearchParams(ses.SearchParams);
 
   for (const movieId of movieIds) {
     ses.addMovie(movieId);
@@ -87,14 +81,8 @@ export const onSessionUpdate = functions.firestore.document('sessions/{id}').onU
   const after = sessionFromSnapshot(session.after.data());
 
   
-  if (!checkSameArray(before.Genres, after.Genres)) {
-    const movieIds = await getMoviesFromSearchParams({
-      searchData: {
-        genreIds: after.Genres,
-        include_adult: false
-      },
-      max_nbr: 10
-    });
+  if (!checkSameArray(before.SearchParams.Query.genreIds, after.SearchParams.Query.genreIds)) {
+    const movieIds = await getMoviesFromSearchParams(after.SearchParams);
 
     for (const movieId of movieIds) {
       after.addMovie(movieId);

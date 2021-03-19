@@ -1,15 +1,10 @@
 import Session from './session';
 
 class User {
-  private id: string;
-  private username: string;
-  private sessionIds: string[];
-
-
   constructor(
-    id: string,
-    username: string = '',
-    sessionIds: string[] = []
+    private id: string,
+    private username: string = '',
+    private sessionIds: string[] = []
   ) {
     this.id = id;
     this.username = username;
