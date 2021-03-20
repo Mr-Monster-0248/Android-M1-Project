@@ -24,13 +24,17 @@ open class BaseActivity : AppCompatActivity() {
             }
             R.id.action_disconnect ->{
                 FirebaseAuth.getInstance().signOut()
-                val intent = Intent(this, LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-                finish()
+                returnToLoginActivity()
                 return true
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    fun returnToLoginActivity() {
+        val intent = Intent(this, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 }
