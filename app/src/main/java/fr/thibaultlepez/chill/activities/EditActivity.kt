@@ -21,6 +21,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import fr.thibaultlepez.chill.R
 import fr.thibaultlepez.chill.models.*
+import fr.thibaultlepez.chill.store.State
 import fr.thibaultlepez.chill.utils.Constants
 import java.security.Provider
 import java.util.*
@@ -68,19 +69,24 @@ class EditActivity : AppCompatActivity() {
         val searchParams = FireSearchParams(selectedNbr, FireQuery(adultIncluded, selectedGenres))
         val sessionId = selectedName + randomUUID().toString().substring(0, 3)
         val ownerId = FirebaseAuth.getInstance().currentUser?.uid.toString()
-        val sessionMovies: List<FireMovie>
+        val sessionMovies = ArrayList<FireMovie>()
+        val sessionUsers = ArrayList<FireSessionUser>()
+
+        sessionUsers.add(FireSessionUser(State.user!!.id, State.user!!.username))
 
 
-        val session = FireSession(
+        val newSession = FireSession(
             sessionId,
             selectedName,
             ownerId,
             sessionMovies,
+            sessionUsers,
             searchParams,
-            SessionState.NEW,
-            
+            SessionState.NEW
         )
-        // TODO: instancier une session pour l'envoyer à la cloud function
+
+
+        Log.d("CHILL/Creating new Session", newSession.toString())
         // TODO: Call cloud function
     }
 
