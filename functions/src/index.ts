@@ -145,3 +145,27 @@ export const removeUserFromSession = functions.https.onCall(async (data: { userI
   if (!user.hasSession(session.Id)) user.removeSession(session);
   await updateUserInDB(user);
 });
+
+
+
+// * Retrieve movie data on call
+export const retrieveMoviesData = functions.https.onCall(async (data: { sessionId: string, lang: string }) => {
+  const session = await findSessionById(data.sessionId);
+  if (session === null) return;
+
+
+  const moviesData: {
+    id: string,
+    title: string,
+    poster_path: string,
+    description: string,
+    score: number
+  }[] = [];
+
+
+  for (const movie of session.Movies) {
+    moviesData.push(await getLocalizedMovieData({ movieId: movie.id, lang: data.lang }));
+  }
+
+  return moviesData;
+});

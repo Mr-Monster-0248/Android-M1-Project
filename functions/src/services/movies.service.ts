@@ -34,3 +34,23 @@ export async function getMoviesFromSearchParams(searchParams: SearchParams) {
     .map((movie: any) => movie.id)
     .slice(0, searchParams.Max_nbr);
 }
+
+
+
+// Retrieve
+// id, title, poster_url, description, score
+export async function getLocalizedMovieData(query: { movieId: string, lang: string }) {
+  const res = await fetch(`${BASE_URL}/movie/${query.movieId}`);
+  const json = await res.json();
+
+  return json
+    .map((movie: any) => {
+      return {
+        id: movie.id,       // string
+        title: movie.title, // string
+        poster_path: movie.poster_path, // string
+        description: movie.overview,    // string
+        score: 0            // number
+      };
+    });
+}
