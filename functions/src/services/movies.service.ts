@@ -37,20 +37,19 @@ export async function getMoviesFromSearchParams(searchParams: SearchParams) {
 
 
 
-// Retrieve
-// id, title, poster_url, description, score
+// Retrieve localized movie data
 export async function getLocalizedMovieData(query: { movieId: string, lang: string }) {
-  const res = await fetch(`${BASE_URL}/movie/${query.movieId}`);
+  const res = await fetch(`${BASE_URL}/movie/${query.movieId}?api_key=${API_KEY}&language=${query.lang}`);
   const json = await res.json();
 
-  return json
-    .map((movie: any) => {
-      return {
-        id: movie.id,       // string
-        title: movie.title, // string
-        poster_path: movie.poster_path, // string
-        description: movie.overview,    // string
-        score: 0            // number
-      };
-    });
+  const result = {
+    id: json.id,                                // string
+    title: json.title,                          // string
+    poster_path: `http://image.tmdb.org/t/p/w300/${json.poster_path}`,              // string
+    description: json.overview,                 // string
+    year: json.release_date.substring(0, 4),    // string
+    score: 0                                    // number
+  };
+
+  return result;
 }

@@ -12,7 +12,10 @@ class JoinActivity : AppCompatActivity() {
         setContentView(R.layout.activity_join)
     }
 
-    fun joinSession(view: View) {}
+
+    fun joinSession(view: View) {
+
+    }
 
 
     fun goToEditActivity(view: View) {

@@ -23,6 +23,11 @@
     <!-- REGISTER -->
 
 
+    <!-- JOIN -->
+    <string name="prompt_session_id">Session ID</string>
+    <!-- JOIN -->
+
+
     <!-- SESSIONS LIST -->
     <string name="sessions_list_activity_my_sessions">MY SESSIONS</string>
     <!-- SESSIONS LIST -->

@@ -152,7 +152,7 @@ export const removeUserFromSession = functions.https.onCall(async (data: { userI
 
 
 
-// * Retrieve movie data on call
+// Retrieve movie data on call
 export const retrieveMoviesData = functions.https.onCall(async (data: { sessionId: string, lang: string }) => {
   const session = await findSessionById(data.sessionId);
   if (session === null) return;
@@ -163,6 +163,7 @@ export const retrieveMoviesData = functions.https.onCall(async (data: { sessionI
     title: string,
     poster_path: string,
     description: string,
+    year: string,
     score: number
   }[] = [];
 
@@ -171,5 +172,6 @@ export const retrieveMoviesData = functions.https.onCall(async (data: { sessionI
     moviesData.push(await getLocalizedMovieData({ movieId: movie.id, lang: data.lang }));
   }
 
-  return moviesData;
+
+  return { movies: moviesData };
 });
