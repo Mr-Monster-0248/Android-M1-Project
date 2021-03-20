@@ -36,8 +36,10 @@ android {
 dependencies {
     api 'com.google.android.material:material:1.4.0-alpha01'
 
+    // ==== FIREBASE ====
     implementation platform('com.google.firebase:firebase-bom:26.7.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-firestore:22.1.1'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.2.0'
