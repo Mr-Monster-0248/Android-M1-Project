@@ -1,7 +1,7 @@
 package fr.thibaultlepez.chill.models
 
 data class User(
-    val id: String,
-    val email: String,
-    val username: String?
+    var id: String = "",
+    var email: String = "",
+    var username: String = ""
 )
