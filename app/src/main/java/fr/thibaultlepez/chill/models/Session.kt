@@ -4,7 +4,8 @@ data class Session(
     val id: String,
     val ownerID: String,
     val name: String,
-    val movies: MutableList<Movie>,
-    val users: MutableList<User>,
+    val movies: ArrayList<Movie>,
+    val users: ArrayList<String>,
+    val genres: ArrayList<Int>,
     val state: Int
 )
