@@ -6,37 +6,41 @@ import fr.thibaultlepez.chill.models.FireSession
 import fr.thibaultlepez.chill.models.FireUser
 import fr.thibaultlepez.chill.models.User
 import fr.thibaultlepez.chill.utils.DbConstants
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.tasks.await
+import java.lang.Error
 
-fun getUserFromDb(userId: String, callback: (FireUser) -> Unit) {
+suspend fun getUserFromDb(userId: String): FireUser? {
     val db = FirebaseFirestore.getInstance()
 
-    db.collection(DbConstants.USERS)
-        .document(userId)
-        .get()
-        .addOnSuccessListener {
-            val user = it.toObject(FireUser::class.java)
-            if (user != null) callback(user)
-        }
-        .addOnFailureListener {
-            Log.e("CHILL/fail on DB", it.stackTraceToString())
-            throw it
-        }
+    return try {
+        val documentSnapshot = db.collection(DbConstants.USERS)
+            .document(userId)
+            .get()
+            .await()
+
+        documentSnapshot.toObject(FireUser::class.java)
+    } catch (err: Error) {
+        Log.e("CHILL/ERROR", err.stackTraceToString())
+        null
+    }
+
+
 }
 
-fun getSessionFromDb(sessionId: String, callback: (FireSession) -> Unit) {
+suspend fun getSessionFromDb(sessionId: String): FireSession? {
     val db = FirebaseFirestore.getInstance()
 
-    db.collection(DbConstants.SESSIONS)
-        .document(sessionId)
-        .get()
-        .addOnSuccessListener {
-            val session = it.toObject(FireSession::class.java)
-            if (session != null ) callback(session)
-        }
-        .addOnFailureListener {
-            Log.e("CHILL/fail on DB", it.stackTraceToString())
-            throw it
-        }
+    return try {
+        val documentSnapshot = db.collection(DbConstants.SESSIONS)
+            .document(sessionId)
+            .get()
+            .await()
+
+        documentSnapshot.toObject(FireSession::class.java)
+    } catch (err: Error) {
+        Log.e("CHILL/ERROR", err.stackTraceToString())
+        null
+    }
+
 }
 
