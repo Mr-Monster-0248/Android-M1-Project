@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.widget.addTextChangedListener
 import androidx.preference.PreferenceManager
 import com.android.volley.Request
@@ -17,13 +16,11 @@ import com.google.android.material.chip.ChipGroup
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import fr.thibaultlepez.chill.R
 import fr.thibaultlepez.chill.models.*
 import fr.thibaultlepez.chill.store.State
 import fr.thibaultlepez.chill.utils.Constants
-import java.security.Provider
 import java.util.*
 import java.util.UUID.randomUUID
 import kotlin.collections.ArrayList
@@ -67,12 +64,15 @@ class EditActivity : AppCompatActivity() {
 
     fun createSession(view: View) {
         val searchParams = FireSearchParams(selectedNbr, FireQuery(adultIncluded, selectedGenres))
-        val sessionId = selectedName + randomUUID().toString().substring(0, 3)
+        val sessionId = selectedName + "-" + randomUUID().toString().substring(0, 4)
         val ownerId = FirebaseAuth.getInstance().currentUser?.uid.toString()
         val sessionMovies = ArrayList<FireMovie>()
         val sessionUsers = ArrayList<FireSessionUser>()
 
         sessionUsers.add(FireSessionUser(State.user!!.id, State.user!!.username))
+
+
+        // TODO: Validate inputs before instanciating new FireSession with them
 
 
         val newSession = FireSession(
@@ -87,7 +87,7 @@ class EditActivity : AppCompatActivity() {
 
 
         Log.d("CHILL/Creating new Session", newSession.toString())
-        // TODO: Call cloud function
+        // TODO: Send FireSession to DB
     }
 
 
