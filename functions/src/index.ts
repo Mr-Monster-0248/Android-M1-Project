@@ -11,7 +11,12 @@ import {
   findSessionById,
   sessionFromSnapshot
 } from './services/database.service';
-import { getMoviesFromSearchParams } from './services/movies.service';
+import { getLocalizedMovieData, getMoviesFromSearchParams } from './services/movies.service';
+
+
+
+
+// * : function needs to be tested/debugged
 
 
 
@@ -21,7 +26,7 @@ export const onUserCreate = functions.auth.user().onCreate(async (user) => {
   await createUserInDB(user.uid);
 });
 
-// Handle User username update
+// * Handle User username update
 export const updateUserUsername = functions.https.onCall(async (data: User) => {
   await updateUserInDB(data);
 
@@ -40,11 +45,8 @@ export const updateUserUsername = functions.https.onCall(async (data: User) => {
 
 // Handle User deletion in auth
 export const onUserDelete = functions.auth.user().onDelete(async (user) => {
-  
   const search = await findUserById(user.uid);
   if (search === null) return;
-
-  await deleteUserFromDB(search);
 
   const sessions = await findAllSessionsForUser(search);
   if (sessions === null) return;
@@ -52,11 +54,13 @@ export const onUserDelete = functions.auth.user().onDelete(async (user) => {
   for (const session of sessions) {
     for (const user of session.Users) {
       if (user.id === search.Id) {
-        user.username = search.Username;
+        session.removeUserById(search.Id);
         await updateSessionInDB(session);
       }
     }
   }
+
+  await deleteUserFromDB(search);
 });
 
 
@@ -100,8 +104,8 @@ export const onSessionUpdate = functions.firestore.document('sessions/{id}').onU
 
   functions.logger.log("Current movies", after.Movies);
   
-  // Handle search parameters update
-  if (after.SearchParams.isEqualTo(before.SearchParams)) {
+  // Handle change in search parameters
+  if (!after.SearchParams.isEqualTo(before.SearchParams)) {
     const movieIds = await getMoviesFromSearchParams(after.SearchParams);
 
     after.Movies = [];
@@ -111,14 +115,14 @@ export const onSessionUpdate = functions.firestore.document('sessions/{id}').onU
     }
 
     functions.logger.log("New movies", after.Movies);
+
+    after.State = SessionState.READY;
+
+    await updateSessionInDB(after);
   }
-
-  after.State = SessionState.READY;
-
-  await updateSessionInDB(after);
 });
 
-// Handle User addition to Session
+// * Handle User addition to Session
 export const addUserToSession = functions.https.onCall(async (data: { userId: string, sessionId: string }) => {
   const user = await findUserById(data.userId);
   const session = await findSessionById(data.sessionId);
@@ -132,7 +136,7 @@ export const addUserToSession = functions.https.onCall(async (data: { userId: st
   await updateUserInDB(user);
 });
 
-// Handle User deletion from Session
+// * Handle User deletion from Session
 export const removeUserFromSession = functions.https.onCall(async (data: { userId: string, sessionId: string }) => {
   const user = await findUserById(data.userId);
   const session = await findSessionById(data.sessionId);

@@ -24,10 +24,8 @@ async function getRefById(collectionName: string, docId: string): Promise<Fireba
 
 
 // Save User in DB
-async function saveUserInDB(user: User, newUser: boolean = false) {
+async function saveUserInDB(user: User) {
   const ref = await getRefById('users', user.Id);
-
-  if (newUser && !(await checkDocExists(ref))) return;
 
   await ref.set({
     id: user.Id,
@@ -38,7 +36,7 @@ async function saveUserInDB(user: User, newUser: boolean = false) {
 
 // Create new User in DB
 export async function createUserInDB(id: string) {
-  await saveUserInDB(new User(id), true);
+  await saveUserInDB(new User(id));
 }
 
 // Update existing User in DB
@@ -76,7 +74,7 @@ export async function findAllSessionsForUser(user: User): Promise<Session[] | nu
   const userData = { id: user.Id, username: user.Username };
 
   const snapshot = await db
-    .collection('users')
+    .collection('sessions')
     .where('users', 'array-contains', userData)
     .get();
   

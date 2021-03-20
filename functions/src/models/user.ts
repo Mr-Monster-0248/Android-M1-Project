@@ -7,7 +7,9 @@ class User {
     private sessionIds: string[] = []
   ) {
     this.id = id;
-    this.username = username;
+    this.username = username === ''
+      ? id          // Custom random IDs ??
+      : username;
     this.sessionIds = sessionIds;
   }
 
