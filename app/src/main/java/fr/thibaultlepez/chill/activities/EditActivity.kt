@@ -32,7 +32,7 @@ data class ApiResponse(val genres: ArrayList<Genre>) {}
 
 
 
-class EditActivity : AppCompatActivity() {
+class EditActivity : AuthBaseActivity() {
 
     private lateinit var nameInput: TextInputEditText
     private lateinit var nbrMenu: AutoCompleteTextView
@@ -63,6 +63,12 @@ class EditActivity : AppCompatActivity() {
 
 
     fun createSession(view: View) {
+        if (!validateFormFields()) {
+            Log.d("CHILL/Creating new Session", "Form fields invalid")
+            return
+        }
+
+
         val searchParams = FireSearchParams(selectedNbr, FireQuery(adultIncluded, selectedGenres))
         val sessionId = selectedName + "-" + randomUUID().toString().substring(0, 4)
         val ownerId = FirebaseAuth.getInstance().currentUser?.uid.toString()
@@ -70,9 +76,6 @@ class EditActivity : AppCompatActivity() {
         val sessionUsers = ArrayList<FireSessionUser>()
 
         sessionUsers.add(FireSessionUser(State.user!!.id, State.user!!.username))
-
-
-        // TODO: Validate inputs before instanciating new FireSession with them
 
 
         val newSession = FireSession(
@@ -88,6 +91,32 @@ class EditActivity : AppCompatActivity() {
 
         Log.d("CHILL/Creating new Session", newSession.toString())
         // TODO: Send FireSession to DB
+    }
+
+
+
+    private fun validateFormFields(): Boolean {
+        if (selectedName.isEmpty()) {
+            showSnackBar("You must type in a name for the session.", true)
+            return false
+        }
+
+        if (selectedName.length < 5) {
+            showSnackBar("The session name must be at least 5 characters long.", true)
+            return false
+        }
+
+        if (selectedNbr == 0) {
+            showSnackBar("You must select a number of films.", true)
+            return false
+        }
+
+        if (selectedGenres.size == 0) {
+            showSnackBar("You must select at list one genre.", true)
+            return false
+        }
+
+        return true
     }
 
 
