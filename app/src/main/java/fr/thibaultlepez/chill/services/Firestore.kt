@@ -1,7 +1,9 @@
 package fr.thibaultlepez.chill.services
 
 import android.util.Log
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
 import fr.thibaultlepez.chill.models.FireSession
 import fr.thibaultlepez.chill.models.FireUser
 import fr.thibaultlepez.chill.models.User
@@ -42,5 +44,19 @@ suspend fun getSessionFromDb(sessionId: String): FireSession? {
         null
     }
 
+}
+
+fun saveSessionInDb(session: FireSession, callback: (Task<Void>) -> Unit) {
+    val db = FirebaseFirestore.getInstance()
+
+    val sessionData = Gson().fromJson(
+        Gson().toJson(session),
+        HashMap::class.java
+    )
+
+    db.collection(DbConstants.SESSIONS)
+        .document(session.id)
+        .set(sessionData)
+        .addOnCompleteListener(callback)
 }
 

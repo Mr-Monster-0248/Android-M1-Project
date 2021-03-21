@@ -11,6 +11,7 @@ import androidx.preference.PreferenceManager
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.switchmaterial.SwitchMaterial
@@ -19,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import fr.thibaultlepez.chill.R
 import fr.thibaultlepez.chill.models.*
+import fr.thibaultlepez.chill.services.saveSessionInDb
 import fr.thibaultlepez.chill.store.State
 import fr.thibaultlepez.chill.utils.Constants
 import java.util.*
@@ -75,8 +77,6 @@ class EditActivity : AuthBaseActivity() {
         val sessionMovies = ArrayList<FireMovie>()
         val sessionUsers = ArrayList<FireSessionUser>()
 
-        sessionUsers.add(FireSessionUser(State.user!!.id, State.user!!.username))
-
 
         val newSession = FireSession(
             sessionId,
@@ -89,8 +89,9 @@ class EditActivity : AuthBaseActivity() {
         )
 
 
-        Log.d("CHILL/Creating new Session", newSession.toString())
-        // TODO: Send FireSession to DB
+        saveSessionInDb(newSession) {
+            if (!it.isSuccessful) Log.d("CHILL/Created new Session in DB", newSession.toString())
+        }
     }
 
 
