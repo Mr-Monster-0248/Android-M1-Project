@@ -80,8 +80,9 @@ class SessionOverviewActivity : BaseActivity() {
     }
 
 
-    fun goToSessionActivity(view: View) {
-        // TODO
+    fun goToSwipeActivity(view: View) {
+        val intent = Intent(this@SessionOverviewActivity, SwipeActivity::class.java)
+        startActivity(intent)
     }
 
 

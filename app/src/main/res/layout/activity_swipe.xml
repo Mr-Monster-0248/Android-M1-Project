@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".activities.SwipeActivity">
 
+    <TextView
+        android:id="@+id/swipe_activity_movie_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/swipe_activity_TEST_movie_number"
+        android:textSize="@dimen/movie_title_font_size"
+        app:layout_constraintBottom_toTopOf="@+id/swipe_activity_movie_poster"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.814" />
+
     <ImageView
         android:id="@+id/swipe_activity_movie_poster"
         android:layout_width="286dp"
@@ -15,7 +28,7 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.498"
+        app:layout_constraintVertical_bias="0.223"
         app:srcCompat="@drawable/example_poster" />
 
     <TextView
@@ -28,20 +41,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/swipe_activity_movie_poster"
-        app:layout_constraintVertical_bias="0.346" />
+        app:layout_constraintVertical_bias="0.062" />
 
-    <TextView
-        android:id="@+id/swipe_activity_movie_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/swipe_activity_TEST_movie_number"
-        android:textSize="@dimen/movie_title_font_size"
-        app:layout_constraintBottom_toTopOf="@+id/swipe_activity_movie_poster"
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="338dp"
+        android:layout_height="83dp"
+        app:layout_constraintBottom_toTopOf="@+id/swipe_activity_maybe_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.78" />
+        app:layout_constraintTop_toBottomOf="@+id/swipe_activity_movie_title"
+        app:layout_constraintVertical_bias="0.21">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/swipe_activity_movie_synonpsis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/swipe_activity_TEST_movie_name"
+                android:textSize="@dimen/movie_synopsis" />
+        </LinearLayout>
+    </ScrollView>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/swipe_activity_not_button"
@@ -49,18 +74,32 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|start"
         android:layout_margin="16dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="51dp"
         android:backgroundTint="@color/red_bittersweet"
         android:contentDescription="TODO"
-        android:onClick="dislike"
+        android:onClick="wouldNotWatch"
         app:icon="@drawable/baseline_sentiment_very_dissatisfied_white_18dp"
         app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintHorizontal_bias="0.174"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/swipe_activity_movie_title"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
+        app:layout_constraintVertical_bias="0.36" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/swipe_activity_maybe_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/blue_maya_variant"
+        android:onClick="wouldWatch"
+        app:icon="@drawable/baseline_sentiment_neutral_white_18dp"
+        app:iconTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/swipe_activity_like_button"
@@ -68,34 +107,16 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
+        android:layout_marginTop="9dp"
         android:backgroundTint="@color/green_aquamarine"
-        android:contentDescription="TODO"
-        android:onClick="maybe"
+        android:onClick="wantToWatch"
         app:icon="@drawable/baseline_sentiment_satisfied_alt_white_18dp"
         app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintHorizontal_bias="0.822"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/swipe_activity_movie_title"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/swipe_activity_maybe_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_margin="16dp"
-        android:layout_marginBottom="64dp"
-        android:backgroundTint="@color/blue_maya_variant"
-        android:contentDescription="TODO"
-        android:onClick="maybe"
-        app:icon="@drawable/baseline_sentiment_neutral_white_18dp"
-        app:iconTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/swipe_activity_movie_poster" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
+        app:layout_constraintVertical_bias="0.343" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -45,7 +45,7 @@ export async function getLocalizedMovieData(query: { movieId: string, lang: stri
   const result = {
     id: json.id,                                // string
     title: json.title,                          // string
-    poster_path: `http://image.tmdb.org/t/p/w300/${json.poster_path}`,              // string
+    poster_path: `https://image.tmdb.org/t/p/w300/${json.poster_path}`,   // string
     description: json.overview,                 // string
     year: json.release_date.substring(0, 4),    // string
     score: 0                                    // number

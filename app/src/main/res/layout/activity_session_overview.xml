@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:onClick="goToSessionActivity"
+        android:onClick="goToSwipeActivity"
         android:text="@string/users_list_activity_go_to_session"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,5 +1,5 @@
 import * as functions from 'firebase-functions';
-import Session, { SessionState } from './models/session';
+import { SessionState } from './models/session';
 import {
   createUserInDB,
   deleteUserFromDB,
@@ -161,14 +161,14 @@ export const removeUserFromSession = functions.https.onCall(async (data: { userI
   await updateUserInDB(user);
 });
 
-// * Update movie score in DB
-export const updateMovieScore = functions.https.onCall(async (data: { session: Session }, context) => {
-  const session = await findSessionById(data.session.Id);
+// Update movie score in DB
+export const updateMovieScore = functions.https.onCall(async (data: { sessionId: string, movies: { id: number, score: number }[] }, context) => {
+  const session = await findSessionById(data.sessionId);
   if (session === null) return;
 
   for (const sMovie of session.Movies) {
-    for (const dMovie of data.session.Movies) {
-      if (sMovie.id === dMovie.id) sMovie.score += dMovie.score;
+    for (const dMovie of data.movies) {
+      if (sMovie.id === dMovie.id.toString()) sMovie.score += dMovie.score;
     }
   }
 

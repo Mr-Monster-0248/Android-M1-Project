@@ -10,4 +10,5 @@ object Constants {
     const val ADD_USER_TO_SESSION_FUNC = "addUserToSession"
     const val REMOVE_USER_FROM_SESSION_FUNC = "removeUserFromSession"
     const val UPDATE_USER_USERNAME_FUNC = "updateUserUsername"
+    const val UPDATE_MOVIE_SCORE_FUNC = "updateMovieScore"
 }
