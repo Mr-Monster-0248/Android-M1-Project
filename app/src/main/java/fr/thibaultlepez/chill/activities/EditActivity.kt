@@ -68,14 +68,12 @@ class EditActivity : BaseActivity() {
 
     fun createSession(view: View) {
         showProgressDialog()
+
         if (!validateFormFields()) {
             closeProgressDialog()
             Log.d("CHILL/Creating new Session", "Form fields invalid")
             return
         }
-
-
-        showProgressDialog()
 
 
         val searchParams = FireSearchParams(selectedNbr, FireQuery(adultIncluded, selectedGenres))
@@ -99,8 +97,6 @@ class EditActivity : BaseActivity() {
         saveSessionInDb(newSession) {
             closeProgressDialog()
             if (it.isSuccessful) {
-                State.loadSessionInState(this@EditActivity, sessionId)
-
                 val intent =  Intent(this, SessionsListActivity::class.java)
                 startActivity(intent)
                 finish()

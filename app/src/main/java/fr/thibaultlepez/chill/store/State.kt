@@ -34,10 +34,8 @@ object State {
 
             fireUser.sessionIds.forEach {
                 val newFireSession = getSessionFromDb(it)
-                if (newFireSession != null) {
-                    if (!sessions.any { s -> s.id == it }) sessions.add(newFireSession)
-                    else sessions.set(sessions.indexOfFirst { s -> s.id == it }, newFireSession)
-                } else throw Error("Error while fetching session")
+                if (newFireSession != null && !sessions.contains(newFireSession)) sessions.add(newFireSession)
+                else throw Error("Error while fetching session")
             }
         } else throw Error("Error while fetching user")
 
