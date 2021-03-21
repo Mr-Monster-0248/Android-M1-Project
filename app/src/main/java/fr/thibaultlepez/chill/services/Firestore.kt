@@ -6,10 +6,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import fr.thibaultlepez.chill.models.FireSession
 import fr.thibaultlepez.chill.models.FireUser
-import fr.thibaultlepez.chill.models.User
 import fr.thibaultlepez.chill.utils.DbConstants
 import kotlinx.coroutines.tasks.await
-import java.lang.Error
 
 suspend fun getUserFromDb(userId: String): FireUser? {
     val db = FirebaseFirestore.getInstance()

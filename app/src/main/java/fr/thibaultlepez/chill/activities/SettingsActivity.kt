@@ -8,10 +8,6 @@ import androidx.preference.PreferenceManager
 import fr.thibaultlepez.chill.R
 import fr.thibaultlepez.chill.services.updateUserUsername
 import fr.thibaultlepez.chill.store.State
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class SettingsActivity : AppCompatActivity() {
 

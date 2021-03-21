@@ -20,15 +20,10 @@ import com.google.gson.Gson
 import fr.thibaultlepez.chill.R
 import fr.thibaultlepez.chill.models.*
 import fr.thibaultlepez.chill.services.saveSessionInDb
-import fr.thibaultlepez.chill.store.State
 import fr.thibaultlepez.chill.utils.Constants
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.util.*
 import java.util.UUID.randomUUID
 import kotlin.collections.ArrayList
-
 
 
 data class Genre(val id: String, val name: String) {}

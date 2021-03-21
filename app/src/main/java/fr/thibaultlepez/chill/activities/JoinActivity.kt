@@ -1,14 +1,12 @@
 package fr.thibaultlepez.chill.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.functions.FirebaseFunctions
-import com.google.firebase.ktx.Firebase
 import fr.thibaultlepez.chill.R
 import fr.thibaultlepez.chill.utils.Constants
 import kotlinx.coroutines.CoroutineScope

@@ -3,12 +3,10 @@ package fr.thibaultlepez.chill.activities
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import com.google.android.material.textfield.TextInputEditText
 import fr.thibaultlepez.chill.R
 import fr.thibaultlepez.chill.services.registerWithEmailAndPassword
-import java.lang.Error
 
 class RegisterActivity : BaseActivity() {
     private lateinit var registerEmail: TextInputEditText
@@ -37,7 +35,6 @@ class RegisterActivity : BaseActivity() {
                 }
             } catch (err: Error) {
                 closeProgressDialog()
-                Log.e("CHILL", "Error while registering user", err)
             }
         } else {
             closeProgressDialog()
