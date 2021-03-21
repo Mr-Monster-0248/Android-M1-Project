@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "28904567260",
+    "project_id": "chill-aaa8b",
+    "storage_bucket": "chill-aaa8b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:28904567260:android:b5ce37bec17b512b149f19",
+        "android_client_info": {
+          "package_name": "fr.thibaultlepez.chill"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "28904567260-mhbn1hfss51ta8autkji2vknqipstv5p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDm9048OUE69Oxtcf0jymqw2n-jgcKXTMA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "28904567260-mhbn1hfss51ta8autkji2vknqipstv5p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

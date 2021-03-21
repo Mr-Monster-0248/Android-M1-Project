@@ -1,3 +1,74 @@
 <resources>
-    <string name="app_name">Chill</string>
+    <!-- APP -->
+    <string name="app_name">CHILL</string>
+    <!-- APP -->
+
+
+    <!-- APP ACTIONS -->
+    <string name="menu_disconnect">Disconnect</string>
+    <string name="menu_setting">Setting</string>
+    <!-- APP -->
+
+
+    <!-- LOGIN -->
+    <string name="title_activity_login">LOGIN</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <!-- LOGIN -->
+
+
+    <!-- REGISTER -->
+    <string name="title_activity_register">REGISTER</string>
+    <string name="prompt_registration"><u>Register</u></string>
+    <!-- REGISTER -->
+
+
+    <!-- JOIN -->
+    <string name="prompt_session_id">Session ID</string>
+    <!-- JOIN -->
+
+
+    <!-- SESSIONS LIST -->
+    <string name="sessions_list_activity_my_sessions">MY SESSIONS</string>
+    <!-- SESSIONS LIST -->
+
+
+    <!-- EDIT SESSIONS -->
+    <string name="edit_activity_include_adult">Include adult films</string>
+    <string name="edit_session_choose_nbr">Number of films</string>
+    <!-- EDIT SESSIONS -->
+
+
+    <!-- SESSION OVERVIEW -->
+    <string name="users_list_activity_title">SESSION</string>
+    <string name="users_list_activity_TEST_session_name">session-name-34fr</string>
+    <string name="users_list_activity_joiners">In this session :</string>
+    <string name="users_list_activity_go_to_session">START SWIPING</string>
+    <string name="users_list_activity_edit_session">EDIT SESSION</string>
+    <string name="users_list_activity_leave_session">LEAVE SESSION</string>
+    <!-- SESSION OVERVIEW -->
+
+
+    <!-- SWIPE -->
+    <string name="swipe_activity_TEST_movie_name">Star Wars Episode IV: A New Hope</string>
+    <string name="swipe_activity_TEST_movie_number">Movie 4/10</string>
+    <!-- SWIPE -->
+
+
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+
+    <!-- PREFERENCES -->
+    <!-- Language Preferences -->
+    <string name="language_title">Choose a language</string>
+    <string name="language_current">Use current device language</string>
+
+    <!-- Account Preferences -->
+    <string name="account_title">Account details</string>
+    <string name="set_username">Set username</string>
 </resources>

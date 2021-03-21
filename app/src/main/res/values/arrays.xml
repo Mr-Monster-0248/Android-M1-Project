@@ -1,0 +1,33 @@
+<resources>
+    <!-- Number of films -->
+    <integer-array name="nbr_films">
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+    </integer-array>
+
+
+    <!-- Language Preference -->
+    <string-array name="language_entries">
+        <item>Français</item>
+        <item>English</item>
+        <item>Español</item>
+    </string-array>
+
+    <string-array name="language_values">
+        <item>fr-FR</item>
+        <item>en-US</item>
+        <item>es-ES</item>
+    </string-array>
+
+    <!-- Reply Preference -->
+    <string-array name="reply_entries">
+        <item>Reply</item>
+        <item>Reply to all</item>
+    </string-array>
+
+    <string-array name="reply_values">
+        <item>reply</item>
+        <item>reply_all</item>
+    </string-array>
+</resources>

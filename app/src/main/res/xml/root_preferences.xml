@@ -1,0 +1,30 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="Language of the movie data">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="use_system_language"
+            android:title="@string/language_current" />
+
+        <ListPreference
+            app:defaultValue="en-US"
+            app:entries="@array/language_entries"
+            app:entryValues="@array/language_values"
+            app:key="use_language_choice"
+            app:title="@string/language_title"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/account_title">
+
+        <EditTextPreference
+            android:defaultValue="noname"
+            android:key="username"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/set_username" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

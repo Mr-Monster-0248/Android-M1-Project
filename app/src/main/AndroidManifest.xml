@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fr.thibaultlepez.chill">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,13 +11,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Chill">
-        <activity android:name=".MainActivity">
+
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:label="@string/title_activity_settings" />
+
+        <activity android:name=".activities.SwipeActivity" />
+        <activity android:name=".activities.SessionOverviewActivity" />
+
+        <activity
+            android:name=".activities.EditActivity"
+            android:parentActivityName=".activities.JoinActivity"/>
+
+        <activity android:name=".activities.SessionsListActivity" />
+
+        <activity
+            android:name=".activities.JoinActivity"
+            android:parentActivityName=".activities.SessionsListActivity" />
+        <activity android:name=".activities.LoginActivity" />
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:parentActivityName=".activities.LoginActivity" />
+        <activity
+            android:name=".activities.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Chill.NoActionbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.MainActivity" />
     </application>
 
 </manifest>
