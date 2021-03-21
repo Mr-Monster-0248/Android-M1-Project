@@ -1,6 +1,5 @@
 import * as functions from 'firebase-functions';
 import Session, { SessionState } from './models/session';
-import User from './models/user';
 import {
   createUserInDB,
   deleteUserFromDB,
@@ -9,14 +8,10 @@ import {
   findUserById,
   updateSessionInDB,
   findSessionById,
-  sessionFromSnapshot
+  sessionFromSnapshot,
+  deleteSessionFromDB
 } from './services/database.service';
 import { getLocalizedMovieData, getMoviesFromSearchParams } from './services/movies.service';
-
-
-
-
-// * : function needs to be tested/debugged
 
 
 
@@ -26,17 +21,24 @@ export const onUserCreate = functions.auth.user().onCreate(async (user) => {
   await createUserInDB(user.uid);
 });
 
-// * Handle User username update
-export const updateUserUsername = functions.https.onCall(async (data: User) => {
-  await updateUserInDB(data);
+// Handle User username update
+export const updateUserUsername = functions.https.onCall(async (data: { newUsername: string }, context) => {
+  const userId = context.auth?.uid;
+  if (userId === undefined) return;
 
-  const sessions = await findAllSessionsForUser(data);
+  const user = await findUserById(userId);
+  if (user === null) return;
+
+  user.Username = data.newUsername;
+  await updateUserInDB(user);
+
+  const sessions = await findAllSessionsForUser(user);
   if (sessions === null) return;
 
   for (const session of sessions) {
     for (const user of session.Users) {
-      if (user.id === data.Id) {
-        user.username = data.Username;
+      if (user.id === userId) {
+        user.username = data.newUsername;
         await updateSessionInDB(session);
       }
     }
@@ -77,8 +79,6 @@ export const onSessionCreate = functions.firestore.document('sessions/{id}').onC
     ses.addMovie({ id: movieId, score: 0 });
   }
 
-  functions.logger.log("New movies", ses.Movies);
-
 
   const owner = await findUserById(ses.OwnerId);
 
@@ -106,16 +106,12 @@ export const onSessionUpdate = functions.firestore.document('sessions/{id}').onU
   // Handle change in search parameters
   if (!after.SearchParams.isEqualTo(before.SearchParams)) {
 
-    functions.logger.log("Current movies", after.Movies);
-
     const movieIds = await getMoviesFromSearchParams(after.SearchParams);
     after.Movies = [];
 
     for (const movieId of movieIds) {
       after.addMovie({ id: movieId, score: 0 });
     }
-
-    functions.logger.log("New movies", after.Movies);
 
     after.State = SessionState.READY;
     await updateSessionInDB(after);
@@ -125,7 +121,7 @@ export const onSessionUpdate = functions.firestore.document('sessions/{id}').onU
   after.checkIfDone();
 });
 
-// * Handle User addition to Session
+// Handle User addition to Session
 export const addUserToSession = functions.https.onCall(async (data: { userId: string, sessionId: string }) => {
   const user = await findUserById(data.userId);
   const session = await findSessionById(data.sessionId);
@@ -139,17 +135,22 @@ export const addUserToSession = functions.https.onCall(async (data: { userId: st
   await updateUserInDB(user);
 });
 
-// * Handle User deletion from Session
+// Handle User deletion from Session
 export const removeUserFromSession = functions.https.onCall(async (data: { userId: string, sessionId: string }) => {
   const user = await findUserById(data.userId);
   const session = await findSessionById(data.sessionId);
 
   if (session === null || user === null) return;
 
-  if (session.hasUser(user.Id)) session.removeUserById(data.userId);
-  await updateSessionInDB(session);
+  session.removeUserById(data.userId);
+  if (session.Users.length > 0) {
+    session.pickNewOwner();
+    await updateSessionInDB(session);
+  } else {
+    await deleteSessionFromDB(session);
+  }
 
-  if (!user.hasSession(session.Id)) user.removeSession(session);
+  user.removeSession(session);
   await updateUserInDB(user);
 });
 
@@ -169,6 +170,7 @@ export const updateMovieScore = functions.https.onCall(async (data: { session: S
   
   session.setUserDone(uid);
 });
+
 
 
 // Retrieve movie data on call

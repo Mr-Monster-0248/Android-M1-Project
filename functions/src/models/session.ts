@@ -77,16 +77,8 @@ class Session {
   }
 
 
-  removeOwnerAndPickNewOwner() {
-    let newOwnerId = this.OwnerId;
-
-    do {
-      newOwnerId = getRandomValueInArray(this.Users).id;
-    } while (newOwnerId === this.OwnerId);
-
-    this.removeUserById(this.OwnerId);
-
-    this.OwnerId = newOwnerId;
+  pickNewOwner() {
+    this.OwnerId = getRandomValueInArray(this.Users).id;
   }
 
 
@@ -109,8 +101,8 @@ class Session {
   }
 
   removeUserById(userId: string) {
-    const search = this.Users.find(u => u.id === userId);
-    if (search !== undefined) this.Users.splice(this.Users.indexOf(search));
+    if (this.hasUser(userId))
+      this.Users.splice(this.Users.findIndex(u => u.id === userId));
   }
 
 

@@ -53,8 +53,6 @@ class User {
   }
 
   removeSession(session: Session) {
-    if (this.isOwnerOfSession(session)) session.removeOwnerAndPickNewOwner();
-
     if (this.hasSession(session.Id))
       this.SessionIds.splice(this.SessionIds.indexOf(session.Id));
   }
