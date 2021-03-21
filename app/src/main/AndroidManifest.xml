@@ -15,10 +15,16 @@
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings" />
+
         <activity android:name=".activities.SwipeActivity" />
         <activity android:name=".activities.SessionOverviewActivity" />
-        <activity android:name=".activities.EditActivity" />
+
+        <activity
+            android:name=".activities.EditActivity"
+            android:parentActivityName=".activities.JoinActivity"/>
+
         <activity android:name=".activities.SessionsListActivity" />
+
         <activity
             android:name=".activities.JoinActivity"
             android:parentActivityName=".activities.SessionsListActivity" />
