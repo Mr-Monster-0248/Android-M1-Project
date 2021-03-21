@@ -35,7 +35,7 @@ class SessionsListActivity : BaseActivity() {
 
     private fun displayList() {
         sessionList.layoutManager = LinearLayoutManager(this, GridLayoutManager.VERTICAL, false)
-        sessionList.adapter =  SessionListAdapter(this, State.sessions)
+        sessionList.adapter = SessionListAdapter(this, State.sessions)
     }
 
     fun goToJoinActivity(view: View) {

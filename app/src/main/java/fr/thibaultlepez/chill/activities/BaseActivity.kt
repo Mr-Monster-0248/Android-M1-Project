@@ -26,7 +26,7 @@ open class BaseActivity : AppCompatActivity() {
                 startActivity(intent)
                 true
             }
-            R.id.action_disconnect ->{
+            R.id.action_disconnect -> {
                 State.reset()
                 FirebaseAuth.getInstance().signOut()
                 returnToLoginActivity()

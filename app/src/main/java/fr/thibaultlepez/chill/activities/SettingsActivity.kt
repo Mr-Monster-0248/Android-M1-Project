@@ -39,14 +39,12 @@ class SettingsActivity : AppCompatActivity() {
     }
 
 
-
     private fun setCurrentUsername() {
-        with (sharedPrefs.edit()) {
+        with(sharedPrefs.edit()) {
             putString("username", State.user!!.username)
             apply()
         }
     }
-
 
 
     class SettingsFragment : PreferenceFragmentCompat() {

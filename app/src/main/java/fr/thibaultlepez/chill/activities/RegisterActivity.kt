@@ -24,7 +24,10 @@ class RegisterActivity : BaseActivity() {
         showProgressDialog()
         if (validateRegister()) {
             try {
-                registerWithEmailAndPassword(registerEmail.text.toString(), registerPassword.text.toString()) { user ->
+                registerWithEmailAndPassword(
+                    registerEmail.text.toString(),
+                    registerPassword.text.toString()
+                ) { user ->
                     closeProgressDialog()
                     showSnackBar("Register success")
                     val intent = Intent(this@RegisterActivity, SessionsListActivity::class.java)

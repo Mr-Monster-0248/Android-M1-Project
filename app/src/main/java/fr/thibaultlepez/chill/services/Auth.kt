@@ -3,7 +3,7 @@ package fr.thibaultlepez.chill.services
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
-fun registerWithEmailAndPassword(email: String, password: String, success: (FirebaseUser) -> Unit ) {
+fun registerWithEmailAndPassword(email: String, password: String, success: (FirebaseUser) -> Unit) {
     val auth = FirebaseAuth.getInstance()
     auth.createUserWithEmailAndPassword(email, password)
         .addOnCompleteListener { task ->
@@ -16,7 +16,7 @@ fun registerWithEmailAndPassword(email: String, password: String, success: (Fire
         }
 }
 
-fun loginWithEmailAndPassword(email: String, password: String, success: (FirebaseUser) -> Unit ) {
+fun loginWithEmailAndPassword(email: String, password: String, success: (FirebaseUser) -> Unit) {
     val auth = FirebaseAuth.getInstance()
     auth.signInWithEmailAndPassword(email, password)
         .addOnCompleteListener { task ->

@@ -29,7 +29,11 @@ class SessionUserAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text = list[position].username
-        holder.description.text = if (list[position].done) { "Done." } else { "Voting..." }
+        holder.description.text = if (list[position].done) {
+            "Done."
+        } else {
+            "Voting..."
+        }
     }
 
     override fun getItemCount() = list.size

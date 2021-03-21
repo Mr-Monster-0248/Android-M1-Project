@@ -20,7 +20,6 @@ suspend fun getUserFromDb(userId: String): FireUser? {
 
         documentSnapshot.toObject(FireUser::class.java)
     } catch (err: Error) {
-        Log.e("CHILL/ERROR", err.stackTraceToString())
         null
     }
 }
@@ -36,7 +35,6 @@ suspend fun getSessionFromDb(sessionId: String): FireSession? {
 
         documentSnapshot.toObject(FireSession::class.java)
     } catch (err: Error) {
-        Log.e("CHILL/ERROR", err.stackTraceToString())
         null
     }
 }

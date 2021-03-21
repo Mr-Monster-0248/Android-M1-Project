@@ -30,7 +30,6 @@ data class Genre(val id: String, val name: String) {}
 data class ApiResponse(val genres: ArrayList<Genre>) {}
 
 
-
 class EditActivity : BaseActivity() {
 
     private lateinit var nameInput: TextInputEditText
@@ -66,13 +65,13 @@ class EditActivity : BaseActivity() {
 
         if (!validateFormFields()) {
             closeProgressDialog()
-            Log.d("CHILL/Creating new Session", "Form fields invalid")
             return
         }
 
 
         val searchParams = FireSearchParams(selectedNbr, FireQuery(adultIncluded, selectedGenres))
-        val sessionId = selectedName.trim().replace(" ", "-") + "-" + randomUUID().toString().substring(0, 4)
+        val sessionId =
+            selectedName.trim().replace(" ", "-") + "-" + randomUUID().toString().substring(0, 4)
         val ownerId = FirebaseAuth.getInstance().currentUser?.uid.toString()
         val sessionMovies = ArrayList<FireMovie>()
         val sessionUsers = ArrayList<FireSessionUser>()
@@ -92,7 +91,7 @@ class EditActivity : BaseActivity() {
         saveSessionInDb(newSession) {
             closeProgressDialog()
             if (it.isSuccessful) {
-                val intent =  Intent(this, SessionsListActivity::class.java)
+                val intent = Intent(this, SessionsListActivity::class.java)
                 startActivity(intent)
                 finish()
             } else {
@@ -100,7 +99,6 @@ class EditActivity : BaseActivity() {
             }
         }
     }
-
 
 
     private fun validateFormFields(): Boolean {
@@ -128,17 +126,14 @@ class EditActivity : BaseActivity() {
     }
 
 
-
     private fun populateDropdownList() {
         val nbrFilmOptions = resources.getIntArray(R.array.nbr_films).asList()
         val adapter = ArrayAdapter(this, R.layout.list_item, nbrFilmOptions)
         nbrMenu.setAdapter(adapter)
         nbrMenu.setOnItemClickListener { adapterView, view, i, l ->
             selectedNbr = nbrFilmOptions[i]
-            Log.d("CHILL/Dropdown value", nbrFilmOptions[i].toString())
         }
     }
-
 
 
     private fun fetchMovieGenres() {
@@ -150,8 +145,8 @@ class EditActivity : BaseActivity() {
             else sharedPrefs.getString("use_language_choice", "en-US")
 
         val queryUrl = "https://api.themoviedb.org/3/genre/movie/list?" +
-            "api_key=" + Constants.TMDB_API_KEY +
-            "&language=" + lang
+                "api_key=" + Constants.TMDB_API_KEY +
+                "&language=" + lang
 
 
         // Instantiate the RequestQueue.
@@ -163,16 +158,14 @@ class EditActivity : BaseActivity() {
                 val genres = Gson()
                     .fromJson(response, ApiResponse::class.java)
                     .genres
-                Log.d("CHILL/Genres list", genres.toString())
 
                 populateChipGroup(genres)
             },
-            { Log.d("CHILL/Genres","Retrieval failed") })
+            { })
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest)
     }
-
 
 
     private fun populateChipGroup(genres: ArrayList<Genre>) {
@@ -190,14 +183,12 @@ class EditActivity : BaseActivity() {
     }
 
 
-
     private fun handleChipClick(chip: Chip) {
         chip.isSelected = !chip.isSelected
 
         if (chip.isSelected && !selectedGenres.contains(chip.id)) selectedGenres.add(chip.id)
         else if (selectedGenres.contains(chip.id) && !chip.isSelected) selectedGenres.remove(chip.id)
     }
-
 
 
     fun handleAdultSwitch(view: View) {

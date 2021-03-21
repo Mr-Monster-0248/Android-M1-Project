@@ -37,7 +37,6 @@ class JoinActivity : BaseActivity() {
         )
 
         CoroutineScope(Dispatchers.IO).launch {
-            Log.i("CHILL", "calling ta mere")
             functions.getHttpsCallable(Constants.ADD_USER_TO_SESSION_FUNC)
                 .call(data)
                 .addOnCompleteListener {
