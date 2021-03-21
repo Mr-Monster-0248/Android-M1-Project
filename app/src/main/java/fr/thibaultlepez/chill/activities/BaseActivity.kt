@@ -10,6 +10,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
 import fr.thibaultlepez.chill.R
+import fr.thibaultlepez.chill.store.State
 
 open class BaseActivity : AppCompatActivity() {
     private lateinit var progressDialog: Dialog
@@ -27,6 +28,7 @@ open class BaseActivity : AppCompatActivity() {
                 true
             }
             R.id.action_disconnect ->{
+                State.reset()
                 FirebaseAuth.getInstance().signOut()
                 returnToLoginActivity()
                 return true
