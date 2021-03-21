@@ -121,9 +121,8 @@ export const onSessionUpdate = functions.firestore.document('sessions/{id}').onU
     await updateSessionInDB(after);
   }
 
-  // Handle "Session is done"
+  // TODO: Handle "Session is done"
   after.checkIfDone();
-  // TODO
 });
 
 // * Handle User addition to Session
