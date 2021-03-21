@@ -53,36 +53,34 @@ object State {
     }
 
 
-    fun loadSessionInState(context: Context, sessionId: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val fireSession = getSessionFromDb(sessionId)
+    suspend fun loadSessionInState(context: Context, sessionId: String) {
+        val fireSession = getSessionFromDb(sessionId)
 
-            val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
-            val useSystemLanguage = sharedPrefs.getBoolean("use_system_language", true)
+        val sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val useSystemLanguage = sharedPrefs.getBoolean("use_system_language", true)
 
-            val lang =
-                if (useSystemLanguage) Locale.getDefault().toLanguageTag();
-                else sharedPrefs.getString("use_language_choice", "en-US")
+        val lang =
+            if (useSystemLanguage) Locale.getDefault().toLanguageTag();
+            else sharedPrefs.getString("use_language_choice", "en-US")
 
 
-            if (fireSession != null) {
-                val movies = retrieveMoviesData(sessionId, if (lang.isNullOrBlank()) "en-US" else lang)
-                    .await()
-                val users = fireSession.users
-                val genres = fireSession.searchParams.query.with_genres
+        if (fireSession != null) {
+            val movies = retrieveMoviesData(sessionId, if (lang.isNullOrBlank()) "en-US" else lang)
+                .await()
+            val users = fireSession.users
+            val genres = fireSession.searchParams.query.with_genres
 
-                this@State.session = Session(
-                    fireSession.id,
-                    fireSession.ownerId,
-                    fireSession.name,
-                    movies,
-                    users,
-                    genres,
-                    fireSession.state
-                )
+            this@State.session = Session(
+                fireSession.id,
+                fireSession.ownerId,
+                fireSession.name,
+                movies,
+                users,
+                genres,
+                fireSession.state
+            )
 
-                Log.d("CHILL/STATE", this@State.session.toString())
-            } else throw Error("Error while fetching session")
-        }
+            Log.d("CHILL/STATE", this@State.session.toString())
+        } else throw Error("Error while fetching session")
     }
 }
