@@ -16,7 +16,7 @@ import fr.thibaultlepez.chill.store.State
 import kotlinx.coroutines.*
 
 class SessionsListActivity : BaseActivity() {
-    lateinit var sessionList: RecyclerView
+    private lateinit var sessionList: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,15 +25,14 @@ class SessionsListActivity : BaseActivity() {
         sessionList = findViewById(R.id.sessions_list_list_view)
 
         val user = FirebaseAuth.getInstance().currentUser
-
+        showProgressDialog()
         CoroutineScope(Dispatchers.IO).launch {
-            State.initState(user!!)
+            State.updateState(user!!)
 
             withContext(Dispatchers.Main) {
                 displayList()
+                closeProgressDialog()
             }
-
-            Log.i("CHILL", State.toString())
         }
     }
 

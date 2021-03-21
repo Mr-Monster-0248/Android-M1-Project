@@ -13,7 +13,7 @@ object State {
     var sessions: ArrayList<FireSession> = ArrayList()
     var session: Session? = null
 
-    suspend fun initState(fireAuthUser: FirebaseUser) {
+    suspend fun updateState(fireAuthUser: FirebaseUser) {
 
         val fireUser = getUserFromDb(fireAuthUser.uid)
 
@@ -26,7 +26,8 @@ object State {
 
             fireUser.sessionIds.forEach {
                 val newFireSession = getSessionFromDb(it)
-                if (newFireSession != null) sessions.add(newFireSession)
+                if (newFireSession != null && !sessions.contains(newFireSession))
+                    sessions.add(newFireSession)
                 else throw Error("Error while fetching session")
             }
         } else throw Error("Error while fetching user")
