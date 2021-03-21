@@ -36,9 +36,9 @@ export const updateUserUsername = functions.https.onCall(async (data: { newUsern
   if (sessions === null) return;
 
   for (const session of sessions) {
-    for (const user of session.Users) {
-      if (user.id === userId) {
-        user.username = data.newUsername;
+    for (const u of session.Users) {
+      if (u.id === user.Id) {
+        u.username = user.Username;
         await updateSessionInDB(session);
       }
     }

@@ -67,4 +67,8 @@
     <!-- Language Preferences -->
     <string name="language_title">Choose a language</string>
     <string name="language_current">Use current device language</string>
+
+    <!-- Account Preferences -->
+    <string name="account_title">Account details</string>
+    <string name="set_username">Set username</string>
 </resources>

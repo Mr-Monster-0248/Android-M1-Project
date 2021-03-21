@@ -17,5 +17,14 @@
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/account_title">
+
+        <EditTextPreference
+            android:defaultValue="noname"
+            android:key="username"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/set_username" />
+    </PreferenceCategory>
 
 </PreferenceScreen>
