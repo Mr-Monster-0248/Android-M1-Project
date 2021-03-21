@@ -34,7 +34,6 @@ class LoginActivity : BaseActivity() {
             }
         } catch (err: Error) {
             closeProgressDialog()
-            Log.e("CHILL", "Error while logging user")
         }
     }
 

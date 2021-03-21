@@ -1,8 +1,6 @@
 package fr.thibaultlepez.chill.services
 
-import com.google.android.gms.tasks.Task
 import com.google.firebase.functions.FirebaseFunctions
-import com.google.gson.Gson
 import fr.thibaultlepez.chill.models.FireMovie
 import fr.thibaultlepez.chill.models.Movie
 import fr.thibaultlepez.chill.utils.Constants

@@ -3,19 +3,14 @@ package fr.thibaultlepez.chill.activities
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.android.volley.Request
 import com.android.volley.toolbox.ImageRequest
-import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.google.gson.Gson
 import fr.thibaultlepez.chill.R
-import fr.thibaultlepez.chill.models.Movie
 import fr.thibaultlepez.chill.models.Session
 import fr.thibaultlepez.chill.services.updateMovieScore
 import fr.thibaultlepez.chill.store.State
@@ -31,7 +26,6 @@ class SwipeActivity : BaseActivity() {
 
 
     private lateinit var session: Session
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,14 +51,19 @@ class SwipeActivity : BaseActivity() {
 
         synopsis.text = movie.description
         title.text = "${movie.title} (${movie.year})"
-        number.text = "Movie n°${session.movies.indexOf(movie)+1}/${session.movies.size}"
+        number.text = "Movie n°${session.movies.indexOf(movie) + 1}/${session.movies.size}"
         setMoviePosterFromUrl(movie.poster_path)
     }
 
 
     private fun setMoviePosterFromUrl(posterUrl: String) {
         if (posterUrl.endsWith("/null")) {
-            poster.setImageBitmap(BitmapFactory.decodeResource(resources, R.drawable.img_background))
+            poster.setImageBitmap(
+                BitmapFactory.decodeResource(
+                    resources,
+                    R.drawable.img_background
+                )
+            )
             return
         }
 
@@ -74,18 +73,16 @@ class SwipeActivity : BaseActivity() {
             posterUrl,
             { bitmap ->
                 poster.setImageBitmap(bitmap)
-                Log.d("CHILL/Fetched image", posterUrl)
             },
             300,
             600,
             ImageView.ScaleType.CENTER_CROP,
             Bitmap.Config.ARGB_8888,
-            { error -> Log.e("CHILL/Error loading poster", error.stackTraceToString()) }
+            { error -> throw error }
         )
 
         queue.add(imageRequest)
     }
-
 
 
     fun wouldNotWatch(view: View) {
@@ -113,14 +110,13 @@ class SwipeActivity : BaseActivity() {
 
 
     private fun displayNextMovie() {
-        if (currentPos < session.movies.size-1) {
+        if (currentPos < session.movies.size - 1) {
             currentPos++
             displayMovieData(currentPos)
         } else {
             handleEnd()
         }
     }
-
 
 
     private fun handleEnd() {
@@ -133,9 +129,8 @@ class SwipeActivity : BaseActivity() {
     }
 
 
-
     private fun goToSessionOverview() {
-        val intent =  Intent(this, SessionOverviewActivity::class.java)
+        val intent = Intent(this, SessionOverviewActivity::class.java)
         startActivity(intent)
         finish()
     }

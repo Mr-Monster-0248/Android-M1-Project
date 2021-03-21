@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
 import fr.thibaultlepez.chill.R
 import fr.thibaultlepez.chill.store.State
 
@@ -27,7 +26,7 @@ open class BaseActivity : AppCompatActivity() {
                 startActivity(intent)
                 true
             }
-            R.id.action_disconnect ->{
+            R.id.action_disconnect -> {
                 State.reset()
                 FirebaseAuth.getInstance().signOut()
                 returnToLoginActivity()

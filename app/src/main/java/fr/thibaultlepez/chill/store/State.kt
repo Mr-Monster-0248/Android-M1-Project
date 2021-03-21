@@ -1,16 +1,12 @@
 package fr.thibaultlepez.chill.store
 
 import android.content.Context
-import android.util.Log
 import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseUser
 import fr.thibaultlepez.chill.models.*
 import fr.thibaultlepez.chill.services.getSessionFromDb
 import fr.thibaultlepez.chill.services.getUserFromDb
 import fr.thibaultlepez.chill.services.retrieveMoviesData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.util.*
 import kotlin.collections.ArrayList
@@ -34,12 +30,13 @@ object State {
 
             fireUser.sessionIds.forEach {
                 val newFireSession = getSessionFromDb(it)
-                if (newFireSession != null && !sessions.contains(newFireSession)) sessions.add(newFireSession)
+                if (newFireSession != null && !sessions.contains(newFireSession)) sessions.add(
+                    newFireSession
+                )
                 else throw Error("Error while fetching session")
             }
         } else throw Error("Error while fetching user")
 
-        Log.i("CHILL", "State has been initiated")
     }
 
     fun reset() {
@@ -80,7 +77,6 @@ object State {
                 fireSession.state
             )
 
-            Log.d("CHILL/STATE", this@State.session.toString())
         } else throw Error("Error while fetching session")
     }
 }

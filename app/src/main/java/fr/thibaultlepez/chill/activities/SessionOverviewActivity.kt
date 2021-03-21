@@ -1,7 +1,6 @@
 package fr.thibaultlepez.chill.activities
 
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -58,7 +57,6 @@ class SessionOverviewActivity : BaseActivity() {
     }
 
 
-
     private fun setSessionName() {
         overviewSessionName.text = State.session?.name ?: "Session not found"
     }
@@ -71,12 +69,13 @@ class SessionOverviewActivity : BaseActivity() {
 
     private fun displayUsersList() {
         usersList.layoutManager = LinearLayoutManager(this, GridLayoutManager.VERTICAL, false)
-        usersList.adapter =  SessionUserAdapter(this, State.session!!.users)
+        usersList.adapter = SessionUserAdapter(this, State.session!!.users)
     }
 
 
     private fun setEditButtonVisibility() {
-        editButton.visibility = if (State.session!!.ownerID == State.user!!.id) View.VISIBLE else View.GONE
+        editButton.visibility =
+            if (State.session!!.ownerID == State.user!!.id) View.VISIBLE else View.GONE
     }
 
 
