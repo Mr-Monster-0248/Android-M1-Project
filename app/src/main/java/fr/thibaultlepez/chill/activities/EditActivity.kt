@@ -1,6 +1,5 @@
 package fr.thibaultlepez.chill.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,7 +10,6 @@ import androidx.preference.PreferenceManager
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.switchmaterial.SwitchMaterial
@@ -21,7 +19,6 @@ import com.google.gson.Gson
 import fr.thibaultlepez.chill.R
 import fr.thibaultlepez.chill.models.*
 import fr.thibaultlepez.chill.services.saveSessionInDb
-import fr.thibaultlepez.chill.store.State
 import fr.thibaultlepez.chill.utils.Constants
 import java.util.*
 import java.util.UUID.randomUUID
