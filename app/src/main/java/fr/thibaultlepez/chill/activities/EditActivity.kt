@@ -31,7 +31,7 @@ data class ApiResponse(val genres: ArrayList<Genre>) {}
 
 
 
-class EditActivity : AuthBaseActivity() {
+class EditActivity : BaseActivity() {
 
     private lateinit var nameInput: TextInputEditText
     private lateinit var nbrMenu: AutoCompleteTextView

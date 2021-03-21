@@ -10,7 +10,7 @@ import fr.thibaultlepez.chill.R
 import fr.thibaultlepez.chill.services.registerWithEmailAndPassword
 import java.lang.Error
 
-class RegisterActivity : AuthBaseActivity() {
+class RegisterActivity : BaseActivity() {
     private lateinit var registerEmail: TextInputEditText
     private lateinit var registerPassword: TextInputEditText
 

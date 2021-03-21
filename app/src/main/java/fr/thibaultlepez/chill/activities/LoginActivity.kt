@@ -8,7 +8,7 @@ import com.google.android.material.textfield.TextInputEditText
 import fr.thibaultlepez.chill.R
 import fr.thibaultlepez.chill.services.loginWithEmailAndPassword
 
-class LoginActivity : AuthBaseActivity() {
+class LoginActivity : BaseActivity() {
     private lateinit var loginEmail: TextInputEditText
     private lateinit var loginPassword: TextInputEditText
 
