@@ -69,7 +69,7 @@ class EditActivity : AuthBaseActivity() {
 
 
         val searchParams = FireSearchParams(selectedNbr, FireQuery(adultIncluded, selectedGenres))
-        val sessionId = selectedName + "-" + randomUUID().toString().substring(0, 4)
+        val sessionId = selectedName.trim().replace(" ", "-") + "-" + randomUUID().toString().substring(0, 4)
         val ownerId = FirebaseAuth.getInstance().currentUser?.uid.toString()
         val sessionMovies = ArrayList<FireMovie>()
         val sessionUsers = ArrayList<FireSessionUser>()
