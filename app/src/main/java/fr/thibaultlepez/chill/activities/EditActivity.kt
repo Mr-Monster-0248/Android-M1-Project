@@ -100,7 +100,7 @@ class EditActivity : BaseActivity() {
                 startActivity(intent)
                 finish()
             } else {
-                showSnackBar("Error while creating session")
+                showSnackBar("Error while creating session", true)
             }
         }
     }
