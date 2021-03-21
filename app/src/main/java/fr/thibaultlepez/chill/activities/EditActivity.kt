@@ -68,6 +68,9 @@ class EditActivity : AuthBaseActivity() {
         }
 
 
+        showProgressDialog()
+
+
         val searchParams = FireSearchParams(selectedNbr, FireQuery(adultIncluded, selectedGenres))
         val sessionId = selectedName.trim().replace(" ", "-") + "-" + randomUUID().toString().substring(0, 4)
         val ownerId = FirebaseAuth.getInstance().currentUser?.uid.toString()
@@ -87,7 +90,15 @@ class EditActivity : AuthBaseActivity() {
 
 
         saveSessionInDb(newSession) {
-            if (!it.isSuccessful) Log.d("CHILL/Created new Session in DB", newSession.toString())
+            if (!it.isSuccessful) {
+                Log.d("CHILL/NEW SESSION", newSession.toString())
+                closeProgressDialog()
+                // TODO: Go to session activity
+            } else {
+                Log.d("CHILL/NEW SESSION", "Couldn't create new Session")
+                closeProgressDialog()
+                showSnackBar("Something went wrong with session creation...", true)
+            }
         }
     }
 
