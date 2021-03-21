@@ -1,5 +1,6 @@
 package fr.thibaultlepez.chill.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -62,7 +63,10 @@ class EditActivity : BaseActivity() {
 
 
     fun createSession(view: View) {
+        showProgressDialog()
         if (!validateFormFields()) {
+            closeProgressDialog()
+            showSnackBar("Invalid form", true)
             Log.d("CHILL/Creating new Session", "Form fields invalid")
             return
         }
@@ -87,7 +91,14 @@ class EditActivity : BaseActivity() {
 
 
         saveSessionInDb(newSession) {
-            if (!it.isSuccessful) Log.d("CHILL/Created new Session in DB", newSession.toString())
+            closeProgressDialog()
+            if (it.isSuccessful) {
+                val intent =  Intent(this, SessionsListActivity::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                showSnackBar("Error while creating session")
+            }
         }
     }
 
