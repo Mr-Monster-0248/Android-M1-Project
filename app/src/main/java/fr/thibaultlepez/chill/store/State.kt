@@ -36,6 +36,12 @@ object State {
 
     }
 
+    fun reset() {
+        user = null
+        sessions = ArrayList()
+        session = null
+    }
+
     override fun toString(): String {
         return "STATE:\nuser=${user.toString()}\nsession=${session}"
     }
