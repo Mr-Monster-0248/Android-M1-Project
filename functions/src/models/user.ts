@@ -4,13 +4,15 @@ class User {
   constructor(
     private id: string,
     private username: string = '',
-    private sessionIds: string[] = []
+    private sessionIds: string[] = [],
+    private done: boolean = false
   ) {
     this.id = id;
     this.username = username === ''
       ? id          // Custom random IDs ??
       : username;
     this.sessionIds = sessionIds;
+    this.done = done;
   }
 
 
@@ -29,6 +31,21 @@ class User {
   get SessionIds(): string[] {
     return this.sessionIds;
   }
+
+  get Done(): boolean {
+    return this.done;
+  }
+
+  set Done(done: boolean) {
+    this.done = done;
+  }
+
+
+
+  isDone(): boolean {
+    return this.Done;
+  }
+
 
 
   addSession(sessionId: string) {

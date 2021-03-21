@@ -1,5 +1,5 @@
 import * as functions from 'firebase-functions';
-import { SessionState } from './models/session';
+import Session, { SessionState } from './models/session';
 import User from './models/user';
 import {
   createUserInDB,
@@ -86,7 +86,7 @@ export const onSessionCreate = functions.firestore.document('sessions/{id}').onC
     owner.addSession(ses.Id);
     await updateUserInDB(owner);
 
-    ses.addUser({ id: owner.Id, username: owner.Username });
+    ses.addUser({ id: owner.Id, username: owner.Username, done: owner.isDone() });
   }
 
 
@@ -102,12 +102,13 @@ export const onSessionUpdate = functions.firestore.document('sessions/{id}').onU
   const before = sessionFromSnapshot(session.before.data());
   const after = sessionFromSnapshot(session.after.data());
 
-  functions.logger.log("Current movies", after.Movies);
   
   // Handle change in search parameters
   if (!after.SearchParams.isEqualTo(before.SearchParams)) {
-    const movieIds = await getMoviesFromSearchParams(after.SearchParams);
 
+    functions.logger.log("Current movies", after.Movies);
+
+    const movieIds = await getMoviesFromSearchParams(after.SearchParams);
     after.Movies = [];
 
     for (const movieId of movieIds) {
@@ -117,9 +118,11 @@ export const onSessionUpdate = functions.firestore.document('sessions/{id}').onU
     functions.logger.log("New movies", after.Movies);
 
     after.State = SessionState.READY;
-
     await updateSessionInDB(after);
   }
+
+  // TODO: Handle "Session is done"
+  after.checkIfDone();
 });
 
 // * Handle User addition to Session
@@ -129,7 +132,7 @@ export const addUserToSession = functions.https.onCall(async (data: { userId: st
 
   if (session === null || user === null) return;
 
-  if (!session.hasUser(user.Id)) session.addUser({ id: user.Id, username: user.Username });
+  if (!session.hasUser(user.Id)) session.addUser({ id: user.Id, username: user.Username, done: user.isDone() });
   await updateSessionInDB(session);
 
   if (!user.hasSession(session.Id)) user.addSession(session.Id);
@@ -150,6 +153,22 @@ export const removeUserFromSession = functions.https.onCall(async (data: { userI
   await updateUserInDB(user);
 });
 
+// * Update movie score in DB
+export const updateMovieScore = functions.https.onCall(async (data: { session: Session }, context) => {
+  const session = await findSessionById(data.session.Id);
+  if (session === null) return;
+
+  for (const sMovie of session.Movies) {
+    for (const dMovie of data.session.Movies) {
+      if (sMovie.id === dMovie.id) sMovie.score += dMovie.score;
+    }
+  }
+
+  const uid = context.auth?.uid;
+  if (uid === undefined) return;
+  
+  session.setUserDone(uid);
+});
 
 
 // Retrieve movie data on call
