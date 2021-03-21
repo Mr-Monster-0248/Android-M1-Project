@@ -29,7 +29,6 @@ class SessionsListActivity : BaseActivity() {
             Log.i("CHILL", State.toString())
         }
     }
-    }
 
     fun goToJoinActivity(view: View) {
         val intent = Intent(this@SessionsListActivity, JoinActivity::class.java)

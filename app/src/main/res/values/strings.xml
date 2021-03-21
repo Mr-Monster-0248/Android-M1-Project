@@ -33,6 +33,12 @@
     <!-- SESSIONS LIST -->
 
 
+    <!-- EDIT SESSIONS -->
+    <string name="edit_activity_include_adult">Include adult films</string>
+    <string name="edit_session_choose_nbr">Number of films</string>
+    <!-- EDIT SESSIONS -->
+
+
     <!-- SESSION OVERVIEW -->
     <string name="users_list_activity_title">SESSION</string>
     <string name="users_list_activity_TEST_session_name">session-name-34fr</string>
@@ -55,6 +61,12 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_settings">SettingsActivity</string>
+
+
+    <!-- PREFERENCES -->
+    <!-- Language Preferences -->
+    <string name="language_title">Choose a language</string>
+    <string name="language_current">Use current device language</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
