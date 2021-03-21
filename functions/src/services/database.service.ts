@@ -73,7 +73,11 @@ export async function findUserById(userId: string): Promise<User | null> {
 
 // Find all Sessions for a User
 export async function findAllSessionsForUser(user: User): Promise<Session[] | null> {
-  const userData = { id: user.Id, username: user.Username };
+  const userData = {
+    id: user.Id,
+    username: user.Username
+    // FIXME: la done de ses morts
+  };
 
   const snapshot = await db
     .collection('sessions')

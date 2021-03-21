@@ -1,11 +1,21 @@
 package fr.thibaultlepez.chill.activities
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceManager
 import fr.thibaultlepez.chill.R
+import fr.thibaultlepez.chill.services.updateUserUsername
+import fr.thibaultlepez.chill.store.State
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SettingsActivity : AppCompatActivity() {
+
+    private lateinit var sharedPrefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,7 +27,31 @@ class SettingsActivity : AppCompatActivity() {
                 .commit()
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this) ?: return
+        setCurrentUsername()
+
+
+        sharedPrefs.registerOnSharedPreferenceChangeListener { sharedPreferences, key ->
+            if (key == "username") {
+                val newUsername = sharedPreferences.all[key] as String
+                State.user!!.username = newUsername
+                updateUserUsername(newUsername)
+            }
+        }
     }
+
+
+
+    private fun setCurrentUsername() {
+        with (sharedPrefs.edit()) {
+            putString("username", State.user!!.username)
+            apply()
+        }
+    }
+
+
 
     class SettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

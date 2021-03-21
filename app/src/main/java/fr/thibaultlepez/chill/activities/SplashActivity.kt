@@ -15,6 +15,7 @@ class SplashActivity : AppCompatActivity() {
         val firebaseAuth = FirebaseAuth.getInstance()
         val firebaseUser = firebaseAuth.currentUser
 
+
         if (firebaseUser != null) {
             val intent = Intent(this@SplashActivity, SessionsListActivity::class.java)
 //            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP

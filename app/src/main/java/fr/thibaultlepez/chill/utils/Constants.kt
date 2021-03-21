@@ -8,4 +8,6 @@ object Constants {
     const val TMDB_API_KEY = "bd8a26fab1a21437628c0ad96c66a13e"
 
     const val ADD_USER_TO_SESSION_FUNC = "addUserToSession"
+    const val REMOVE_USER_FROM_SESSION_FUNC = "removeUserFromSession"
+    const val UPDATE_USER_USERNAME_FUNC = "updateUserUsername"
 }

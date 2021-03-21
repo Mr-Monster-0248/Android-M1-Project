@@ -21,7 +21,7 @@ export const onUserCreate = functions.auth.user().onCreate(async (user) => {
   await createUserInDB(user.uid);
 });
 
-// Handle User username update
+// * Handle User username update
 export const updateUserUsername = functions.https.onCall(async (data: { newUsername: string }, context) => {
   const userId = context.auth?.uid;
   if (userId === undefined) return;
@@ -34,11 +34,18 @@ export const updateUserUsername = functions.https.onCall(async (data: { newUsern
 
   const sessions = await findAllSessionsForUser(user);
   if (sessions === null) return;
+  functions.logger.log("updateUserUsername/Sessions: ", sessions);
+
 
   for (const session of sessions) {
-    for (const user of session.Users) {
-      if (user.id === userId) {
-        user.username = data.newUsername;
+    functions.logger.log("updateUserUsername/Session.Users: ", session.Users);
+
+
+    for (const u of session.Users) {
+      if (u.id === user.Id) {
+        functions.logger.log("updateUserUsername/User.Username: ", user.Username);
+        u.username = user.Username;
+        functions.logger.log("updateUserUsername/u.username: ", u.username);
         await updateSessionInDB(session);
       }
     }
