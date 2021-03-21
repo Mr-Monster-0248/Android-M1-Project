@@ -17,7 +17,8 @@ data class FireSearchParams(
 
 data class FireSessionUser(
     val username: String = "",
-    val id: String = ""
+    val id: String = "",
+    val done: Boolean = false
 )
 
 data class FireSession(

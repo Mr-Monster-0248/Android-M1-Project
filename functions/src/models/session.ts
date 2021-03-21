@@ -15,7 +15,7 @@ class Session {
     private name: string,
     private searchParams: SearchParams,
     private movies: { id: string, score: number }[] = [],
-    private users: { id: string, username: string }[] = [],
+    private users: { id: string, username: string, done: boolean }[] = [],
     private state: SessionState
   ) {
     this.id = id;
@@ -64,7 +64,7 @@ class Session {
     this.movies = movies;
   }
 
-  get Users(): { id: string, username: string }[] {
+  get Users(): { id: string, username: string, done: boolean }[] {
     return this.users;
   }
 
@@ -90,12 +90,16 @@ class Session {
   }
 
 
-  addUser(user: { id: string, username: string }) {
+  addUser(user: { id: string, username: string, done: boolean }) {
     if (!this.hasUser(user.id)) this.Users.push(user);
     else {
       const search = this.Users.find(u => u.id === user.id);
-      if (search !== undefined && search.username !== user.username) {
-        this.Users[this.Users.indexOf(search)].username = user.username;
+      if (search !== undefined) {
+        if (search.username !== user.username)
+          this.Users[this.Users.indexOf(search)].username = user.username;
+        
+        if (search.done !== user.done)
+          this.Users[this.Users.indexOf(search)].done = user.done;
       } 
     }
   }
@@ -145,6 +149,17 @@ class Session {
 
   isDone(): boolean {
     return this.State === SessionState.DONE;
+  }
+
+
+  checkIfDone() {
+    if (this.Users.every(user => user.done)) this.State = SessionState.DONE
+  }
+
+
+  setUserDone(userId: string) {
+    if (!this.hasUser(userId)) return;
+    this.Users[this.Users.findIndex(u => u.id === userId)].done = true;
   }
 }
 

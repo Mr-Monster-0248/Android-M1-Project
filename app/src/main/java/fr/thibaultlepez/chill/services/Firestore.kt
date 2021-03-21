@@ -25,8 +25,6 @@ suspend fun getUserFromDb(userId: String): FireUser? {
         Log.e("CHILL/ERROR", err.stackTraceToString())
         null
     }
-
-
 }
 
 suspend fun getSessionFromDb(sessionId: String): FireSession? {
@@ -43,7 +41,6 @@ suspend fun getSessionFromDb(sessionId: String): FireSession? {
         Log.e("CHILL/ERROR", err.stackTraceToString())
         null
     }
-
 }
 
 fun saveSessionInDb(session: FireSession, callback: (Task<Void>) -> Unit) {

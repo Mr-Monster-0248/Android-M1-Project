@@ -31,6 +31,7 @@ async function saveUserInDB(user: User) {
     id: user.Id,
     username: user.Username,
     sessionIds: user.SessionIds,
+    done: user.isDone()
   });
 }
 
@@ -54,7 +55,8 @@ function userFromSnapshot(data: FirebaseFirestore.DocumentData): User {
   return new User(
     data.id,
     data.username,
-    data.sessionIds
+    data.sessionIds,
+    data.done
   );
 }
 
